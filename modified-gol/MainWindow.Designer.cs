@@ -41,8 +41,15 @@
             saveStateToFile_btn = new Button();
             loadStateFromFile_btn = new Button();
             cells_pnl = new Panel();
+            chooser_tabControl = new TabControl();
+            healthy_chooserTab = new TabPage();
+            button1 = new Button();
+            sickPeaceful_chooserTab = new TabPage();
+            sickAggresive_chooserTab = new TabPage();
             ((System.ComponentModel.ISupportInitialize)speed_trackBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)size_trackBar).BeginInit();
+            chooser_tabControl.SuspendLayout();
+            healthy_chooserTab.SuspendLayout();
             SuspendLayout();
             // 
             // startStop_btn
@@ -180,11 +187,66 @@
             // cells_pnl
             // 
             cells_pnl.BorderStyle = BorderStyle.FixedSingle;
-            cells_pnl.Location = new Point(220, 9);
+            cells_pnl.Location = new Point(272, 11);
             cells_pnl.Margin = new Padding(3, 2, 3, 2);
             cells_pnl.Name = "cells_pnl";
-            cells_pnl.Size = new Size(414, 328);
+            cells_pnl.Size = new Size(615, 615);
             cells_pnl.TabIndex = 13;
+            cells_pnl.Click += cells_pnl_Click;
+            cells_pnl.Paint += cells_pnl_Paint;
+            // 
+            // chooser_tabControl
+            // 
+            chooser_tabControl.Controls.Add(healthy_chooserTab);
+            chooser_tabControl.Controls.Add(sickPeaceful_chooserTab);
+            chooser_tabControl.Controls.Add(sickAggresive_chooserTab);
+            chooser_tabControl.Location = new Point(12, 358);
+            chooser_tabControl.Name = "chooser_tabControl";
+            chooser_tabControl.Padding = new Point(6, 6);
+            chooser_tabControl.SelectedIndex = 0;
+            chooser_tabControl.Size = new Size(239, 268);
+            chooser_tabControl.TabIndex = 14;
+            // 
+            // healthy_chooserTab
+            // 
+            healthy_chooserTab.BackColor = Color.FromArgb(37, 37, 37);
+            healthy_chooserTab.Controls.Add(button1);
+            healthy_chooserTab.Location = new Point(4, 30);
+            healthy_chooserTab.Name = "healthy_chooserTab";
+            healthy_chooserTab.Padding = new Padding(3);
+            healthy_chooserTab.Size = new Size(231, 234);
+            healthy_chooserTab.TabIndex = 0;
+            healthy_chooserTab.Text = "Healthy";
+            // 
+            // button1
+            // 
+            button1.ForeColor = Color.Black;
+            button1.Location = new Point(50, 88);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 0;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // sickPeaceful_chooserTab
+            // 
+            sickPeaceful_chooserTab.BackColor = Color.FromArgb(37, 37, 37);
+            sickPeaceful_chooserTab.Location = new Point(4, 30);
+            sickPeaceful_chooserTab.Name = "sickPeaceful_chooserTab";
+            sickPeaceful_chooserTab.Padding = new Padding(3);
+            sickPeaceful_chooserTab.Size = new Size(231, 234);
+            sickPeaceful_chooserTab.TabIndex = 1;
+            sickPeaceful_chooserTab.Text = "Sick - Peaceful";
+            // 
+            // sickAggresive_chooserTab
+            // 
+            sickAggresive_chooserTab.BackColor = Color.FromArgb(37, 37, 37);
+            sickAggresive_chooserTab.Location = new Point(4, 30);
+            sickAggresive_chooserTab.Name = "sickAggresive_chooserTab";
+            sickAggresive_chooserTab.Padding = new Padding(3);
+            sickAggresive_chooserTab.Size = new Size(231, 234);
+            sickAggresive_chooserTab.TabIndex = 2;
+            sickAggresive_chooserTab.Text = "Sick - aggresive";
             // 
             // MainWindow
             // 
@@ -192,6 +254,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(32, 32, 32);
             ClientSize = new Size(1264, 681);
+            Controls.Add(chooser_tabControl);
             Controls.Add(cells_pnl);
             Controls.Add(loadStateFromFile_btn);
             Controls.Add(saveStateToFile_btn);
@@ -209,8 +272,11 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "MainWindow";
             Text = "Modified Game of Life";
+            Load += MainWindow_Load;
             ((System.ComponentModel.ISupportInitialize)speed_trackBar).EndInit();
             ((System.ComponentModel.ISupportInitialize)size_trackBar).EndInit();
+            chooser_tabControl.ResumeLayout(false);
+            healthy_chooserTab.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -230,5 +296,10 @@
         private Button saveStateToFile_btn;
         private Button loadStateFromFile_btn;
         private Panel cells_pnl;
+        private TabControl chooser_tabControl;
+        private TabPage healthy_chooserTab;
+        private TabPage sickPeaceful_chooserTab;
+        private Button button1;
+        private TabPage sickAggresive_chooserTab;
     }
 }
