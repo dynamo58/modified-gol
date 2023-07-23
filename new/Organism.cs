@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +33,8 @@ namespace modified_gol
         public override Brush GetBrush() => Brushes.Yellow;
     }
 
-    internal class PeacefulSickOrganism : Organism {
+    internal class PeacefulSickOrganism : Organism
+    {
         // number of generations a cell remains sick before it either dies or heals
         public static int generationsUntilRecoveryOrDeath = 3;
         public int currentNumberOfGenerationsSick = 0;

@@ -1,10 +1,14 @@
+﻿using System.Drawing;
+using System.Windows.Forms;
+using System;
+
 namespace modified_gol
 {
     [Serializable]
     public class UnreachableException : Exception
     {
         public UnreachableException() { }
-        public UnreachableException(string message): base(message) { }
+        public UnreachableException(string message) : base(message) { }
     }
 
     public partial class MainWindow : Form
@@ -37,19 +41,27 @@ namespace modified_gol
                 for (int j = 0; j < sim.boardSize; j++)
                 {
                     if (sim.cells[i, j].occupier == null) continue;
-                    canvas.FillRectangle(sim.cells[i, j].occupier!.GetBrush(), width * i, width * j, width, width);
+                    canvas.FillRectangle(sim.cells[i, j].occupier.GetBrush(), width * i, width * j, width, width);
                 }
         }
 
         private void cells_pnl_Click(object sender, EventArgs e)
         {
             var coords = cells_pnl.PointToClient(Cursor.Position);
-            Organism newCell = chooser_tabControl.SelectedTab.Name switch
+            Organism newCell;
+            switch (chooser_tabControl.SelectedTab.Name)
             {
-                "healthy_chooserTab" => new HealthyOrganism(),
-                "sickPeaceful_chooserTab" => new PeacefulSickOrganism(),
-                "sickAggresive_chooserTab" => new AggresiveSickOrganism(),
-                _ => throw new UnreachableException("THIS SHOULD NEVER BE REACHED"),
+                case "healthy_chooserTab":
+                    newCell = new HealthyOrganism();
+                    break;
+                case "sickPeaceful_chooserTab":
+                    newCell = new PeacefulSickOrganism();
+                    break;
+                case "sickAggresive_chooserTab":
+                    newCell = new AggresiveSickOrganism();
+                    break;
+                default:
+                    throw new UnreachableException("THIS SHOULD NEVER BE REACHED");
             };
 
             System.Diagnostics.Debug.WriteLine(chooser_tabControl.SelectedTab.Name);
@@ -65,7 +77,8 @@ namespace modified_gol
                 cells_pnl.Invalidate(new Rectangle(width * x, width * y, width, width));
                 sim.cells[x, y].occupier = null;
 
-            } else
+            }
+            else
             {
                 Graphics canvas = cells_pnl.CreateGraphics();
                 int width = (cells_pnl.Width - 2) / sim.boardSize;

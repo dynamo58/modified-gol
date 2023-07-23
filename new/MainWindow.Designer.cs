@@ -1,4 +1,10 @@
-﻿namespace modified_gol
+﻿using static System.Net.Mime.MediaTypeNames;
+using System.Drawing.Printing;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Xml.Linq;
+
+namespace modified_gol
 {
     partial class MainWindow
     {

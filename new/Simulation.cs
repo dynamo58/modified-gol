@@ -8,7 +8,7 @@ namespace modified_gol
 {
     class Cell
     {
-        public Organism? occupier;
+        public Organism occupier;
     }
 
     internal class Simulation
@@ -37,9 +37,9 @@ namespace modified_gol
         {
             // do not proceed if no change to the size was made
             if (newSize == this.boardSize) return;
-            
+
             // allocate a new array
-            Cell[,] newCells = new Cell[newSize,newSize];
+            Cell[,] newCells = new Cell[newSize, newSize];
 
             // port over the old cells that fit
             for (int i = 0; i < Math.Min(newSize, this.boardSize); i++)
