@@ -14,9 +14,33 @@ namespace modified_gol
         [STAThread]
         static void Main()
         {
+            Utils.StartDebugger();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainWindow());
+        }
+    }
+
+    public class Utils
+    {
+        public static bool DEBUGGING = false;
+
+
+        public static void StartDebugger()
+        {
+            DEBUGGING = true;
+        }
+
+        public static void Debug(string s)
+        {
+            if (DEBUGGING)
+                System.Diagnostics.Debug.WriteLine(s);
+        }
+
+        public static bool IsWithinBounds((int, int) vals, int lower, int upper)
+        {
+            return (lower <= vals.Item1 && vals.Item1 <= upper) && (lower <= vals.Item2 && vals.Item2 <= upper);
         }
     }
 }
