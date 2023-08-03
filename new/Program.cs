@@ -8,6 +8,8 @@ namespace modified_gol
 {
     internal static class Program
     {
+        public static Random _rand = new Random();
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>

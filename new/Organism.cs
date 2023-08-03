@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace modified_gol
 {
@@ -16,6 +17,15 @@ namespace modified_gol
         // possible amounts of neighbors for a cell to become a new organism
         public static int[] newCellBeBornConds = new int[] { 3 };
 
+
+        public static Organism DecideEmptyCellNextState(int healthyNeighborCount)
+        {
+            if (Organism.newCellBeBornConds.Contains(healthyNeighborCount))
+                return new HealthyOrganism();
+            return null;
+        }
+
+        public abstract Organism DecideNextState(int healthyNeighborCount);
         public abstract Brush GetBrush();
     }
 
@@ -25,6 +35,11 @@ namespace modified_gol
         public static int[] surviveConds = new int[] { 2, 3 };
 
         public override Brush GetBrush() => Brushes.Green;
+
+        public override Organism DecideNextState(int healthyNeighborCount)
+        {
+            return (HealthyOrganism.surviveConds.Contains(healthyNeighborCount) ? this : null);
+        }
 
         public HealthyOrganism()
         {
@@ -40,6 +55,20 @@ namespace modified_gol
         public int currentDaysIncubating = 0;
 
         public override Brush GetBrush() => Brushes.Yellow;
+
+        public override Organism DecideNextState(int healthyNeighborCount)
+        {
+            this.currentDaysIncubating += 1;
+
+            if (this.currentDaysIncubating == InfectedOrganism.incubationPeriod)
+            {
+                bool newIsAggresive = Program._rand.Next(1, 101) < InfectedOrganism.chanceOfInfectectionCausingAggretion;
+
+                return (newIsAggresive) ? (new AggresiveSickOrganism() as Organism) : (new PeacefulSickOrganism() as Organism);
+            }
+                
+            return this;
+        }
 
         public InfectedOrganism()
         {
@@ -57,6 +86,22 @@ namespace modified_gol
 
         public override Brush GetBrush() => Brushes.Orange;
 
+        public override Organism DecideNextState(int healthyNeighborCount)
+        {
+            this.currentNumberOfGenerationsSick += 1;
+
+            if (this.currentNumberOfGenerationsSick == PeacefulSickOrganism.generationsUntilRecoveryOrDeath)
+            {
+                // play god
+                bool keepAlive = Program._rand.Next(1, 101) < PeacefulSickOrganism.chanceOfRecovery;
+
+                // the org. has healed!
+                return (keepAlive) ? new HealthyOrganism() : null;
+            }
+
+            return this;
+        }
+
         public PeacefulSickOrganism()
         {
             this.kind = Kind.PeacefulSick;
@@ -70,6 +115,13 @@ namespace modified_gol
         public int currentHungerStrike = 0;
 
         public override Brush GetBrush() => Brushes.Red;
+
+        public override Organism DecideNextState(int healthyNeighborCount)
+        {
+            this.currentHungerStrike += 1;
+            // if the org. hasn't eaten in a while, it shall die
+            return (this.currentHungerStrike == AggresiveSickOrganism.hungerStrikeThreshold) ? null : this;
+        }
 
         public AggresiveSickOrganism()
         {

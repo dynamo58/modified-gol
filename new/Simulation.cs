@@ -31,24 +31,15 @@ namespace modified_gol
         public Cell[,] cells;
         public int generationCount;
         public int speed;
-        // as is visible further below, we first need to iterage over the
-        // aggresive ones; let them do their thing and only then iterate over
-        // the rest
-        public List<(int, int)> aggresiveOrganismPositions;
-
-        private Random _rand;
 
         public Simulation(int size, int speed)
         {
             this.speed = speed;
             this.generationCount = 0;
             this.boardSize = size;
-            this.aggresiveOrganismPositions = new List<(int, int)>();
 
             this.cells = new Cell[size, size];
             this.Clean();
-
-            this._rand = new Random();
         }
 
         // will resize the cell array board according to the new size
@@ -106,7 +97,7 @@ namespace modified_gol
             return count;
         }
         // snitch out the positions of all neighbors that arent aggresive
-        private System.Collections.Generic.IEnumerable<(int, int)> UnagressiveNeighbors(int x, int y)
+        private IEnumerable<(int, int)> UnagressiveNeighbors(int x, int y)
         {
             for (int i = 0; i < 9; i++)
             {
@@ -121,119 +112,26 @@ namespace modified_gol
         {
             Cell[,] newBoard = new Cell[this.boardSize, this.boardSize];
 
+            // firstly take care of all the aggressive cells
+            for (int i = 0; i < this.boardSize; i++)
+                for (int j = 0; j < this.boardSize; j++)
+                    if (this.cells[i,j].occupier != null && this.cells[i, j].occupier.kind == Organism.Kind.AggresiveSick)
+                        foreach ((int x, int y) in UnagressiveNeighbors(i, j))
+                        {
+                            this.cells[x, y] = new Cell();
+                            (this.cells[i, j].occupier as AggresiveSickOrganism).currentHungerStrike = 0;
+                        }
+
+            // ...then the others
             for (int i = 0; i < this.boardSize; i++)
                 for (int j = 0; j < this.boardSize; j++)
                 {
                     int count = this.getHealthyNeighborCount(i, j);
-                    
 
-                    // ================= AggresiveSick cell =================
-                    if (this.cells[i, j].occupier != null &&
-                        this.cells[i, j].occupier.kind == Organism.Kind.AggresiveSick)
-                    {
-                        AggresiveSickOrganism org = (this.cells[i, j].occupier as AggresiveSickOrganism);
-                        org.currentHungerStrike += 1;
-
-                        // eat all surrounding unaggressive neighbors
-                        foreach ((int x, int y) in UnagressiveNeighbors(i, j))
-                        {
-                            this.cells[x, y] = newBoard[x, y] = new Cell();
-
-                            org.currentHungerStrike = 0;
-                        }
-
-                        // if the org. hasn't eaten in a while, it shall die
-                        if (org.currentHungerStrike == AggresiveSickOrganism.hungerStrikeThreshold)
-                            newBoard[i, j].occupier = this.cells[i, j].occupier = null;
-                        else
-                            newBoard[i, j] = new Cell(org);
-
-                        continue;
-                    }
-
-                    // ================= Healthy cell =================
-                    if (this.cells[i, j].occupier != null &&
-                        this.cells[i, j].occupier.kind == Organism.Kind.Healthy)
-                    {
-                        if (HealthyOrganism.surviveConds.Contains(count))
-                        {
-                            newBoard[i, j] = this.cells[i, j];
-                            Utils.Debug($"[{i}, {j}] healthy with {count} neighbors -> healthy");
-                        }
-                        else
-                        {
-                            newBoard[i, j] = new Cell();
-                            Utils.Debug($"[{i}, {j}] healthy with {count} neighbors -> empty");
-                        }
-
-                        continue;
-                    }
-
-                    // ================= Infected cell =================
-                    if (this.cells[i, j].occupier != null &&
-                    this.cells[i, j].occupier.kind == Organism.Kind.Infected)
-                    {
-                        InfectedOrganism org = (this.cells[i, j].occupier as InfectedOrganism);
-                        org.currentDaysIncubating += 1;
-
-                        if (org.currentDaysIncubating == InfectedOrganism.incubationPeriod)
-                        {
-                            bool newIsAggresive = this._rand.Next(1, 101) < InfectedOrganism.chanceOfInfectectionCausingAggretion;
-
-                            Organism newOrg = (newIsAggresive) ? (new AggresiveSickOrganism() as Organism) : (new PeacefulSickOrganism() as Organism);
-
-                            newBoard[i, j] = new Cell(newOrg);
-                        }
-                        else
-                            newBoard[i, j] = new Cell(org);
-
-                        continue;
-                    }
-
-
-                    // ================= PeacefulSick cell =================
-                    if (this.cells[i, j].occupier != null &&
-                        this.cells[i, j].occupier.kind == Organism.Kind.PeacefulSick)
-                    {
-                        PeacefulSickOrganism org = (this.cells[i, j].occupier as PeacefulSickOrganism);
-
-                        org.currentNumberOfGenerationsSick += 1;
-
-                        if (org.currentNumberOfGenerationsSick == PeacefulSickOrganism.generationsUntilRecoveryOrDeath)
-                        {
-                            // play god
-                            bool keepAlive = this._rand.Next(1, 101) < PeacefulSickOrganism.chanceOfRecovery;
-
-                            // the org. has healed!
-                            if (keepAlive)
-                                newBoard[i, j] = this.cells[i, j] = new Cell(new HealthyOrganism());
-                            else // time to kill
-                                newBoard[i, j] = this.cells[i, j] = new Cell();
-                        }
-
-                        newBoard[i, j] = this.cells[i, j] = new Cell(org);
-
-                        continue;
-                    }
-
-                    // ================= EMPTY CELL =================
                     if (this.cells[i, j].occupier == null)
-                    {
-                        if (Organism.newCellBeBornConds.Contains(count))
-                        {
-                            newBoard[i, j] = new Cell(new HealthyOrganism());
-                            Utils.Debug($"[{i}, {j}] empty with {count} neighbors -> healthy");
-                        }
-                        else
-                        {
-                            newBoard[i, j] = new Cell();
-                            Utils.Debug($"[{i}, {j}] empty with {count} neighbors -> empty");
-
-                        }
-
-                        continue;
-                    }
-
+                        newBoard[i, j] = new Cell(Organism.DecideEmptyCellNextState(count));
+                    else
+                        newBoard[i, j] = new Cell(this.cells[i, j].occupier.DecideNextState(count));
                 }
 
             this.generationCount += 1;
