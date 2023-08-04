@@ -15,7 +15,8 @@ namespace modified_gol
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            sim = new Simulation(5, speed_trackBar.Value);
+            sim = new Simulation(size_trackBar.Value, speed_trackBar.Value);
+            autoplay_timer.Interval = 1000 / speed_trackBar.Value;
             cells_pnl.Refresh();
         }
 
@@ -41,6 +42,8 @@ namespace modified_gol
                 (int)Math.Floor(((coords.X) / (double)((cells_pnl.Width - 2) / sim.boardSize))),
                 (int)Math.Floor(((coords.Y) / (double)((cells_pnl.Width - 2) / sim.boardSize)))
             );
+
+            if (x >= sim.boardSize || y >= sim.boardSize) return;
 
             if (sim.cells[x, y].occupier != null)
             {
@@ -75,6 +78,32 @@ namespace modified_gol
         }
 
         private void manual_btn_Click(object sender, EventArgs e)
+        {
+            sim.AdvanceGeneration();
+            cells_pnl.Refresh();
+        }
+
+        private void speed_trackBar_Scroll(object sender, EventArgs e)
+        {
+            sim.speed = speed_trackBar.Value;
+            autoplay_timer.Interval = 1000 / speed_trackBar.Value;
+            speed_lbl.Text = $"Speed: {speed_trackBar.Value}";
+        }
+
+        private void size_trackBar_Scroll(object sender, EventArgs e)
+        {
+            sim.Resize(size_trackBar.Value);
+            size_lbl.Text = $"Size: {size_trackBar.Value}";
+            cells_pnl.Refresh();
+        }
+
+        private void startStop_btn_Click(object sender, EventArgs e)
+        {
+            autoplay_timer.Enabled = !autoplay_timer.Enabled;
+            startStop_btn.Text = (autoplay_timer.Enabled) ? "Start" : "Stop";
+        }
+
+        private void autoplay_timer_Tick(object sender, EventArgs e)
         {
             sim.AdvanceGeneration();
             cells_pnl.Refresh();

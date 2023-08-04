@@ -34,6 +34,7 @@ namespace modified_gol
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.startStop_btn = new System.Windows.Forms.Button();
             this.manual_btn = new System.Windows.Forms.Button();
             this.speed_trackBar = new System.Windows.Forms.TrackBar();
@@ -52,6 +53,7 @@ namespace modified_gol
             this.button1 = new System.Windows.Forms.Button();
             this.sickPeaceful_chooserTab = new System.Windows.Forms.TabPage();
             this.sickAggresive_chooserTab = new System.Windows.Forms.TabPage();
+            this.autoplay_timer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.speed_trackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.size_trackBar)).BeginInit();
             this.chooser_tabControl.SuspendLayout();
@@ -68,6 +70,7 @@ namespace modified_gol
             this.startStop_btn.TabIndex = 0;
             this.startStop_btn.Text = "Start";
             this.startStop_btn.UseVisualStyleBackColor = true;
+            this.startStop_btn.Click += new System.EventHandler(this.startStop_btn_Click);
             // 
             // manual_btn
             // 
@@ -92,7 +95,8 @@ namespace modified_gol
             this.speed_trackBar.Size = new System.Drawing.Size(97, 45);
             this.speed_trackBar.TabIndex = 2;
             this.speed_trackBar.TickFrequency = 10;
-            this.speed_trackBar.Value = 1;
+            this.speed_trackBar.Value = 10;
+            this.speed_trackBar.Scroll += new System.EventHandler(this.speed_trackBar_Scroll);
             // 
             // size_trackBar
             // 
@@ -106,15 +110,16 @@ namespace modified_gol
             this.size_trackBar.TabIndex = 3;
             this.size_trackBar.TickFrequency = 10;
             this.size_trackBar.Value = 10;
+            this.size_trackBar.Scroll += new System.EventHandler(this.size_trackBar_Scroll);
             // 
             // speed_lbl
             // 
             this.speed_lbl.AutoSize = true;
             this.speed_lbl.Location = new System.Drawing.Point(9, 70);
             this.speed_lbl.Name = "speed_lbl";
-            this.speed_lbl.Size = new System.Drawing.Size(50, 13);
+            this.speed_lbl.Size = new System.Drawing.Size(56, 13);
             this.speed_lbl.TabIndex = 4;
-            this.speed_lbl.Text = "Speed: 1";
+            this.speed_lbl.Text = "Speed: 10";
             this.speed_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // size_lbl
@@ -255,6 +260,10 @@ namespace modified_gol
             this.sickAggresive_chooserTab.TabIndex = 2;
             this.sickAggresive_chooserTab.Text = "Sick - aggresive";
             // 
+            // autoplay_timer
+            // 
+            this.autoplay_timer.Tick += new System.EventHandler(this.autoplay_timer_Tick);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -309,5 +318,6 @@ namespace modified_gol
         private TabPage sickPeaceful_chooserTab;
         private Button button1;
         private TabPage sickAggresive_chooserTab;
+        private Timer autoplay_timer;
     }
 }
