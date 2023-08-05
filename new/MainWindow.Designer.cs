@@ -54,6 +54,8 @@ namespace modified_gol
             this.sickAggresive_chooserTab = new System.Windows.Forms.TabPage();
             this.autoplay_timer = new System.Windows.Forms.Timer(this.components);
             this.randomizeCells_txtbx = new System.Windows.Forms.TextBox();
+            this.simulation_saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.simulation_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.speed_trackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.size_trackBar)).BeginInit();
             this.chooser_tabControl.SuspendLayout();
@@ -176,6 +178,7 @@ namespace modified_gol
             this.saveStateToFile_btn.TabIndex = 10;
             this.saveStateToFile_btn.Text = "Save state to file";
             this.saveStateToFile_btn.UseVisualStyleBackColor = true;
+            this.saveStateToFile_btn.Click += new System.EventHandler(this.saveStateToFile_btn_Click);
             // 
             // loadStateFromFile_btn
             // 
@@ -187,6 +190,7 @@ namespace modified_gol
             this.loadStateFromFile_btn.TabIndex = 11;
             this.loadStateFromFile_btn.Text = "Load state from file";
             this.loadStateFromFile_btn.UseVisualStyleBackColor = true;
+            this.loadStateFromFile_btn.Click += new System.EventHandler(this.loadStateFromFile_btn_Click);
             // 
             // cells_pnl
             // 
@@ -266,6 +270,17 @@ namespace modified_gol
             this.randomizeCells_txtbx.Text = "10";
             this.randomizeCells_txtbx.TextChanged += new System.EventHandler(this.randomizeCells_txtbx_TextChanged);
             // 
+            // simulation_saveFileDialog
+            // 
+            this.simulation_saveFileDialog.AddExtension = false;
+            this.simulation_saveFileDialog.DefaultExt = "json";
+            this.simulation_saveFileDialog.FileName = "mySimulation";
+            // 
+            // simulation_openFileDialog
+            // 
+            this.simulation_openFileDialog.AddExtension = false;
+            this.simulation_openFileDialog.DefaultExt = "json";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -322,5 +337,7 @@ namespace modified_gol
         private TabPage sickAggresive_chooserTab;
         private Timer autoplay_timer;
         private TextBox randomizeCells_txtbx;
+        private SaveFileDialog simulation_saveFileDialog;
+        private OpenFileDialog simulation_openFileDialog;
     }
 }

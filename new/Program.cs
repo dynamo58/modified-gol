@@ -28,7 +28,6 @@ namespace modified_gol
     {
         public static bool DEBUGGING = false;
 
-
         public static void StartDebugger()
         {
             DEBUGGING = true;

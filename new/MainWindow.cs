@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using System;
+using System.IO;
+using System.Text.Json.Nodes;
 
 namespace modified_gol
 {
@@ -128,6 +130,47 @@ namespace modified_gol
             }
             else
                 sim.randomizationFactor = newVal;
+        }
+
+        private void saveStateToFile_btn_Click(object sender, EventArgs e)
+        {
+            if (simulation_saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (!File.Exists(simulation_saveFileDialog.FileName))
+                    File.Create(simulation_saveFileDialog.FileName).Close();
+
+                File.WriteAllText(simulation_saveFileDialog.FileName, sim.ToJSON());
+            }
+        }
+
+        private void loadStateFromFile_btn_Click(object sender, EventArgs e)
+        {
+            if (simulation_openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = simulation_openFileDialog.FileName;
+                
+                if (!File.Exists(path))
+                {
+                    MessageBox.Show("The specified file does not exist!");
+                    return;
+                }
+
+                sim = Simulation.DeserializeFromFile(path);
+                UpdateEntireUIFromSimulation();
+            }
+        }
+
+        private void UpdateEntireUIFromSimulation()
+        {
+            speed_trackBar.Value = sim.speed;
+            speed_lbl.Text = $"Speed: {speed_trackBar.Value}";
+
+            size_trackBar.Value = sim.boardSize;
+            size_lbl.Text = $"Size: {size_trackBar.Value}";
+
+            randomizeCells_txtbx.Text = sim.randomizationFactor.ToString();
+
+            cells_pnl.Refresh();
         }
     }
 

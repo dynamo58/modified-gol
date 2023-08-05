@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace modified_gol
 {
@@ -25,13 +27,14 @@ namespace modified_gol
         }
     }
 
+
     internal class Simulation
     {
         public int boardSize;
         public Cell[,] cells;
-        public int generationCount;
         public int speed;
         public int randomizationFactor;
+        public int generationCount;
 
         public Simulation(int size, int speed, int randomizationFactor)
         {
@@ -155,6 +158,26 @@ namespace modified_gol
                 for (int j = 0; j < this.boardSize; j++)
                     // TODO: make bad-value-safe
                     this.cells[i, j].occupier = (Program._rand.Next(0, 101) < this.randomizationFactor) ? new HealthyOrganism() : null;
+        }
+
+        //private readonly JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions
+        //{
+        //    IncludeFields = true
+        //};
+        public string ToJSON()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            });
+        }
+
+        public static Simulation DeserializeFromFile(string path)
+        {
+            return JsonConvert.DeserializeObject<Simulation>(File.ReadAllText(path), new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            });
         }
     }
 }
