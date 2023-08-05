@@ -42,7 +42,6 @@ namespace modified_gol
             this.speed_lbl = new System.Windows.Forms.Label();
             this.size_lbl = new System.Windows.Forms.Label();
             this.randomizeCells_btn = new System.Windows.Forms.Button();
-            this.randomizeCells_txtbx = new System.Windows.Forms.TextBox();
             this.clearCells_btn = new System.Windows.Forms.Button();
             this.startStopRecording_btn = new System.Windows.Forms.Button();
             this.saveStateToFile_btn = new System.Windows.Forms.Button();
@@ -54,6 +53,7 @@ namespace modified_gol
             this.sickPeaceful_chooserTab = new System.Windows.Forms.TabPage();
             this.sickAggresive_chooserTab = new System.Windows.Forms.TabPage();
             this.autoplay_timer = new System.Windows.Forms.Timer(this.components);
+            this.randomizeCells_txtbx = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.speed_trackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.size_trackBar)).BeginInit();
             this.chooser_tabControl.SuspendLayout();
@@ -142,15 +142,7 @@ namespace modified_gol
             this.randomizeCells_btn.TabIndex = 6;
             this.randomizeCells_btn.Text = "Randomize cells";
             this.randomizeCells_btn.UseVisualStyleBackColor = true;
-            // 
-            // randomizeCells_txtbx
-            // 
-            this.randomizeCells_txtbx.Location = new System.Drawing.Point(125, 144);
-            this.randomizeCells_txtbx.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.randomizeCells_txtbx.Name = "randomizeCells_txtbx";
-            this.randomizeCells_txtbx.Size = new System.Drawing.Size(36, 20);
-            this.randomizeCells_txtbx.TabIndex = 7;
-            this.randomizeCells_txtbx.Text = "10";
+            this.randomizeCells_btn.Click += new System.EventHandler(this.randomizeCells_btn_Click);
             // 
             // clearCells_btn
             // 
@@ -264,6 +256,16 @@ namespace modified_gol
             // 
             this.autoplay_timer.Tick += new System.EventHandler(this.autoplay_timer_Tick);
             // 
+            // randomizeCells_txtbx
+            // 
+            this.randomizeCells_txtbx.Location = new System.Drawing.Point(125, 144);
+            this.randomizeCells_txtbx.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.randomizeCells_txtbx.Name = "randomizeCells_txtbx";
+            this.randomizeCells_txtbx.Size = new System.Drawing.Size(36, 20);
+            this.randomizeCells_txtbx.TabIndex = 7;
+            this.randomizeCells_txtbx.Text = "10";
+            this.randomizeCells_txtbx.TextChanged += new System.EventHandler(this.randomizeCells_txtbx_TextChanged);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -284,6 +286,7 @@ namespace modified_gol
             this.Controls.Add(this.speed_trackBar);
             this.Controls.Add(this.manual_btn);
             this.Controls.Add(this.startStop_btn);
+            this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainWindow";
@@ -307,7 +310,6 @@ namespace modified_gol
         private Label speed_lbl;
         private Label size_lbl;
         private Button randomizeCells_btn;
-        private TextBox randomizeCells_txtbx;
         private Button clearCells_btn;
         private Button startStopRecording_btn;
         private Button saveStateToFile_btn;
@@ -319,5 +321,6 @@ namespace modified_gol
         private Button button1;
         private TabPage sickAggresive_chooserTab;
         private Timer autoplay_timer;
+        private TextBox randomizeCells_txtbx;
     }
 }

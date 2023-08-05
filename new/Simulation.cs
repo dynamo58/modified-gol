@@ -31,12 +31,14 @@ namespace modified_gol
         public Cell[,] cells;
         public int generationCount;
         public int speed;
+        public int randomizationFactor;
 
-        public Simulation(int size, int speed)
+        public Simulation(int size, int speed, int randomizationFactor)
         {
             this.speed = speed;
             this.generationCount = 0;
-            this.boardSize = size; 
+            this.boardSize = size;
+            this.randomizationFactor = randomizationFactor;
 
             this.cells = new Cell[size, size];
             this.Clean();
@@ -145,6 +147,14 @@ namespace modified_gol
 
             this.generationCount += 1;
             this.cells = newBoard;
+        }
+
+        public void RandomizeCells()
+        {
+            for (int i = 0; i < this.boardSize; i++)
+                for (int j = 0; j < this.boardSize; j++)
+                    // TODO: make bad-value-safe
+                    this.cells[i, j].occupier = (Program._rand.Next(0, 101) < this.randomizationFactor) ? new HealthyOrganism() : null;
         }
     }
 }

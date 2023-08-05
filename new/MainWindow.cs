@@ -15,7 +15,7 @@ namespace modified_gol
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            sim = new Simulation(size_trackBar.Value, speed_trackBar.Value);
+            sim = new Simulation(size_trackBar.Value, speed_trackBar.Value, int.Parse(randomizeCells_txtbx.Text));
             autoplay_timer.Interval = 1000 / speed_trackBar.Value;
             cells_pnl.Refresh();
         }
@@ -100,13 +100,34 @@ namespace modified_gol
         private void startStop_btn_Click(object sender, EventArgs e)
         {
             autoplay_timer.Enabled = !autoplay_timer.Enabled;
-            startStop_btn.Text = (autoplay_timer.Enabled) ? "Start" : "Stop";
+            startStop_btn.Text = (autoplay_timer.Enabled) ? "Stop" : "Start";
         }
 
         private void autoplay_timer_Tick(object sender, EventArgs e)
         {
             sim.AdvanceGeneration();
             cells_pnl.Refresh();
+        }
+
+        private void randomizeCells_btn_Click(object sender, EventArgs e)
+        {
+            sim.RandomizeCells();
+            cells_pnl.Refresh();
+        }
+
+        private void randomizeCells_txtbx_TextChanged(object sender, EventArgs e)
+        {
+
+            int newVal;
+            bool result = int.TryParse(randomizeCells_txtbx.Text, out newVal);
+
+            if (!result)
+            {
+                MessageBox.Show("Value must be an integer between 1 and 100");
+                randomizeCells_txtbx.Text = sim.randomizationFactor.ToString();
+            }
+            else
+                sim.randomizationFactor = newVal;
         }
     }
 
