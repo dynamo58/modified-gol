@@ -113,9 +113,10 @@ namespace modified_gol
         // snitch out the positions of all neighbors that arent aggresive
         private IEnumerable<(int, int)> UnagressiveNeighbors(int x, int y)
         {
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i <= 7; i++)
             {
                 (int neighX, int neighY) = (x + relativPoss[i].Item1, y + relativPoss[i].Item2);
+                if (!Utils.IsWithinBounds((neighX, neighY), 0, this.boardSize - 1)) continue;
                 if (this.cells[neighX, neighY].occupier != null && this.cells[neighX, neighY].occupier.kind != Organism.Kind.AggresiveSick)
                     yield return (neighX, neighY);
             }
@@ -132,7 +133,8 @@ namespace modified_gol
                     if (this.cells[i,j].occupier != null && this.cells[i, j].occupier.kind == Organism.Kind.AggresiveSick)
                         foreach ((int x, int y) in UnagressiveNeighbors(i, j))
                         {
-                            this.cells[x, y] = new Cell();
+                            Utils.Debug($"{i} {j} eatable neighbor at {x} {y}");
+                            this.cells[x, y].occupier = null;
                             (this.cells[i, j].occupier as AggresiveSickOrganism).currentHungerStrike = 0;
                         }
 
@@ -156,28 +158,19 @@ namespace modified_gol
         {
             for (int i = 0; i < this.boardSize; i++)
                 for (int j = 0; j < this.boardSize; j++)
-                    // TODO: make bad-value-safe
                     this.cells[i, j].occupier = (Program._rand.Next(0, 101) < this.randomizationFactor) ? new HealthyOrganism() : null;
         }
 
-        //private readonly JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions
-        //{
-        //    IncludeFields = true
-        //};
-        public string ToJSON()
-        {
-            return JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
+        public string ToJSON() =>
+           JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             });
-        }
 
-        public static Simulation DeserializeFromFile(string path)
-        {
-            return JsonConvert.DeserializeObject<Simulation>(File.ReadAllText(path), new JsonSerializerSettings
+        public static Simulation DeserializeFromFile(string path) =>
+            JsonConvert.DeserializeObject<Simulation>(File.ReadAllText(path), new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             });
-        }
     }
 }

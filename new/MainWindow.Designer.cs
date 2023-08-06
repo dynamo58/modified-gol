@@ -195,7 +195,7 @@ namespace modified_gol
             // cells_pnl
             // 
             this.cells_pnl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.cells_pnl.Location = new System.Drawing.Point(233, 10);
+            this.cells_pnl.Location = new System.Drawing.Point(253, 11);
             this.cells_pnl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cells_pnl.Name = "cells_pnl";
             this.cells_pnl.Size = new System.Drawing.Size(527, 533);
@@ -212,7 +212,7 @@ namespace modified_gol
             this.chooser_tabControl.Name = "chooser_tabControl";
             this.chooser_tabControl.Padding = new System.Drawing.Point(6, 6);
             this.chooser_tabControl.SelectedIndex = 0;
-            this.chooser_tabControl.Size = new System.Drawing.Size(205, 232);
+            this.chooser_tabControl.Size = new System.Drawing.Size(223, 232);
             this.chooser_tabControl.TabIndex = 14;
             // 
             // healthy_chooserTab
@@ -222,7 +222,7 @@ namespace modified_gol
             this.healthy_chooserTab.Location = new System.Drawing.Point(4, 28);
             this.healthy_chooserTab.Name = "healthy_chooserTab";
             this.healthy_chooserTab.Padding = new System.Windows.Forms.Padding(3);
-            this.healthy_chooserTab.Size = new System.Drawing.Size(197, 200);
+            this.healthy_chooserTab.Size = new System.Drawing.Size(217, 200);
             this.healthy_chooserTab.TabIndex = 0;
             this.healthy_chooserTab.Text = "Healthy";
             // 
@@ -242,7 +242,7 @@ namespace modified_gol
             this.sickPeaceful_chooserTab.Location = new System.Drawing.Point(4, 28);
             this.sickPeaceful_chooserTab.Name = "sickPeaceful_chooserTab";
             this.sickPeaceful_chooserTab.Padding = new System.Windows.Forms.Padding(3);
-            this.sickPeaceful_chooserTab.Size = new System.Drawing.Size(197, 200);
+            this.sickPeaceful_chooserTab.Size = new System.Drawing.Size(217, 200);
             this.sickPeaceful_chooserTab.TabIndex = 1;
             this.sickPeaceful_chooserTab.Text = "Sick - Peaceful";
             // 
@@ -252,7 +252,7 @@ namespace modified_gol
             this.sickAggresive_chooserTab.Location = new System.Drawing.Point(4, 28);
             this.sickAggresive_chooserTab.Name = "sickAggresive_chooserTab";
             this.sickAggresive_chooserTab.Padding = new System.Windows.Forms.Padding(3);
-            this.sickAggresive_chooserTab.Size = new System.Drawing.Size(197, 200);
+            this.sickAggresive_chooserTab.Size = new System.Drawing.Size(215, 200);
             this.sickAggresive_chooserTab.TabIndex = 2;
             this.sickAggresive_chooserTab.Text = "Sick - aggresive";
             // 
@@ -286,7 +286,7 @@ namespace modified_gol
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.ClientSize = new System.Drawing.Size(1083, 590);
+            this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.chooser_tabControl);
             this.Controls.Add(this.cells_pnl);
             this.Controls.Add(this.loadStateFromFile_btn);
