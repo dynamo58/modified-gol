@@ -2,13 +2,19 @@
 using System.Windows.Forms;
 using System;
 using System.IO;
-using System.Text.Json.Nodes;
+using AnimatedGif;
 
 namespace modified_gol
 {
     public partial class MainWindow : Form
     {
         Simulation sim;
+        // man I would love to be using an actual good language that
+        // could model this stuff; let rec_gif: Option<ImageAnimator> = None;
+        // oh well
+        bool recording = false;
+        AnimatedGif.AnimatedGifCreator gif = null;
+
 
         public MainWindow()
         {
@@ -17,9 +23,13 @@ namespace modified_gol
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            sim = new Simulation(size_trackBar.Value, speed_trackBar.Value, int.Parse(randomizeCells_txtbx.Text));
+            sim = new Simulation(40, 4, 35);
+            this.UpdateEntireUIFromSimulation();
             autoplay_timer.Interval = 1000 / speed_trackBar.Value;
             cells_pnl.Refresh();
+
+            if (!Directory.Exists(Path.GetTempPath() + "\\modified-gol"))
+                Directory.CreateDirectory(Path.GetTempPath() + "\\modified-gol");
         }
 
         private void cells_pnl_Paint(object sender, PaintEventArgs e)
@@ -68,7 +78,7 @@ namespace modified_gol
                         newCell = new AggresiveSickOrganism();
                         break;
                     default:
-                        throw new UnreachableException("THIS SHOULD NEVER BE REACHED");
+                        throw new UnreachableException("THIS IS UNREACHABLE");
                 };
 
                 Graphics canvas = cells_pnl.CreateGraphics();
@@ -82,6 +92,7 @@ namespace modified_gol
         private void manual_btn_Click(object sender, EventArgs e)
         {
             sim.AdvanceGeneration();
+            this.WriteCellsToGif();
             cells_pnl.Refresh();
         }
 
@@ -108,6 +119,7 @@ namespace modified_gol
         private void autoplay_timer_Tick(object sender, EventArgs e)
         {
             sim.AdvanceGeneration();
+            if (recording) this.WriteCellsToGif();
             cells_pnl.Refresh();
         }
 
@@ -119,11 +131,10 @@ namespace modified_gol
 
         private void randomizeCells_txtbx_TextChanged(object sender, EventArgs e)
         {
-
             int newVal;
             bool result = int.TryParse(randomizeCells_txtbx.Text, out newVal);
 
-            if (!result)
+            if (!result || (newVal < 1) || (newVal > 100))
             {
                 MessageBox.Show("Value must be an integer between 1 and 100");
                 randomizeCells_txtbx.Text = sim.randomizationFactor.ToString();
@@ -171,6 +182,42 @@ namespace modified_gol
             randomizeCells_txtbx.Text = sim.randomizationFactor.ToString();
 
             cells_pnl.Refresh();
+        }
+
+        // handle recording switching
+        private void startStopRecording_btn_Click(object sender, EventArgs e)
+        {
+            recording = !recording;
+            startStopRecording_btn.Text = (recording) ? "Stop recording" : "Start recording";
+
+            // setup the recording process
+            if (recording)
+            {
+                string path = Path.GetTempPath() + "\\modified-gol\\temp.gif";
+                this.gif = AnimatedGif.AnimatedGif.Create(path, 100);
+                this.WriteCellsToGif();
+            }
+            // if the recording has been stopped
+            else
+            {
+                gif.Dispose();
+                if (simulationGIF_saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string path = simulationGIF_saveFileDialog.FileName;
+                    File.Copy(Path.GetTempPath() + "\\modified-gol\\temp.gif", path);
+                    File.Delete(Path.GetTempPath() + "\\modified-gol\\temp.gif");
+                }
+            }
+        }
+
+        // append a frame to the already-existing GIF file
+        private void WriteCellsToGif()
+        {
+            int width = cells_pnl.Size.Width;
+            int height = cells_pnl.Size.Height;
+            Bitmap bm = new Bitmap(width, height);
+            cells_pnl.DrawToBitmap(bm, new Rectangle(0, 0, width, height));
+            this.gif.AddFrame(bm, delay: -1, quality: GifQuality.Bit8);
         }
     }
 

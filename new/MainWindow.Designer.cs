@@ -56,6 +56,7 @@ namespace modified_gol
             this.randomizeCells_txtbx = new System.Windows.Forms.TextBox();
             this.simulation_saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.simulation_openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.simulationGIF_saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.speed_trackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.size_trackBar)).BeginInit();
             this.chooser_tabControl.SuspendLayout();
@@ -160,13 +161,14 @@ namespace modified_gol
             // startStopRecording_btn
             // 
             this.startStopRecording_btn.ForeColor = System.Drawing.Color.Black;
-            this.startStopRecording_btn.Location = new System.Drawing.Point(27, 207);
+            this.startStopRecording_btn.Location = new System.Drawing.Point(27, 211);
             this.startStopRecording_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.startStopRecording_btn.Name = "startStopRecording_btn";
             this.startStopRecording_btn.Size = new System.Drawing.Size(115, 19);
             this.startStopRecording_btn.TabIndex = 9;
             this.startStopRecording_btn.Text = "Start recording";
             this.startStopRecording_btn.UseVisualStyleBackColor = true;
+            this.startStopRecording_btn.Click += new System.EventHandler(this.startStopRecording_btn_Click);
             // 
             // saveStateToFile_btn
             // 
@@ -222,7 +224,7 @@ namespace modified_gol
             this.healthy_chooserTab.Location = new System.Drawing.Point(4, 28);
             this.healthy_chooserTab.Name = "healthy_chooserTab";
             this.healthy_chooserTab.Padding = new System.Windows.Forms.Padding(3);
-            this.healthy_chooserTab.Size = new System.Drawing.Size(217, 200);
+            this.healthy_chooserTab.Size = new System.Drawing.Size(215, 200);
             this.healthy_chooserTab.TabIndex = 0;
             this.healthy_chooserTab.Text = "Healthy";
             // 
@@ -242,7 +244,7 @@ namespace modified_gol
             this.sickPeaceful_chooserTab.Location = new System.Drawing.Point(4, 28);
             this.sickPeaceful_chooserTab.Name = "sickPeaceful_chooserTab";
             this.sickPeaceful_chooserTab.Padding = new System.Windows.Forms.Padding(3);
-            this.sickPeaceful_chooserTab.Size = new System.Drawing.Size(217, 200);
+            this.sickPeaceful_chooserTab.Size = new System.Drawing.Size(215, 200);
             this.sickPeaceful_chooserTab.TabIndex = 1;
             this.sickPeaceful_chooserTab.Text = "Sick - Peaceful";
             // 
@@ -280,6 +282,11 @@ namespace modified_gol
             // 
             this.simulation_openFileDialog.AddExtension = false;
             this.simulation_openFileDialog.DefaultExt = "json";
+            // 
+            // simulationGIF_saveFileDialog
+            // 
+            this.simulationGIF_saveFileDialog.AddExtension = false;
+            this.simulationGIF_saveFileDialog.DefaultExt = "gif";
             // 
             // MainWindow
             // 
@@ -339,5 +346,6 @@ namespace modified_gol
         private TextBox randomizeCells_txtbx;
         private SaveFileDialog simulation_saveFileDialog;
         private OpenFileDialog simulation_openFileDialog;
+        private SaveFileDialog simulationGIF_saveFileDialog;
     }
 }
