@@ -14,6 +14,7 @@ namespace modified_gol
         // oh well
         bool recording = false;
         AnimatedGif.AnimatedGifCreator gif = null;
+        int framerate = 4;
 
 
         public MainWindow()
@@ -179,6 +180,9 @@ namespace modified_gol
             size_trackBar.Value = sim.boardSize;
             size_lbl.Text = $"Size: {size_trackBar.Value}";
 
+            bRuleset_txtbx.Text = Utils.FlattenArrayOfBoolsToNumbers(Simulation.newCellBeBornConds);
+            sRuleset_txtbx.Text = Utils.FlattenArrayOfBoolsToNumbers(Simulation.surviveConds);
+
             randomizeCells_txtbx.Text = sim.randomizationFactor.ToString();
 
             cells_pnl.Refresh();
@@ -194,7 +198,8 @@ namespace modified_gol
             if (recording)
             {
                 string path = Path.GetTempPath() + "\\modified-gol\\temp.gif";
-                this.gif = AnimatedGif.AnimatedGif.Create(path, 100);
+                this.gif = AnimatedGif.AnimatedGif.Create(path, 1000 / this.framerate);
+                framerate_txtBox.Enabled = false;
                 this.WriteCellsToGif();
             }
             // if the recording has been stopped
@@ -207,17 +212,81 @@ namespace modified_gol
                     File.Copy(Path.GetTempPath() + "\\modified-gol\\temp.gif", path);
                     File.Delete(Path.GetTempPath() + "\\modified-gol\\temp.gif");
                 }
+                framerate_txtBox.Enabled = true;
             }
         }
 
         // append a frame to the already-existing GIF file
         private void WriteCellsToGif()
         {
+            if (!this.recording) return;
             int width = cells_pnl.Size.Width;
             int height = cells_pnl.Size.Height;
             Bitmap bm = new Bitmap(width, height);
             cells_pnl.DrawToBitmap(bm, new Rectangle(0, 0, width, height));
             this.gif.AddFrame(bm, delay: -1, quality: GifQuality.Bit8);
+        }
+
+        private void framerate_txtBox_TextChanged(object sender, EventArgs e)
+        {
+            int newVal;
+            bool result = int.TryParse(framerate_txtBox.Text, out newVal);
+
+            if (!result || (newVal < 1) || (newVal > 100))
+            {
+                MessageBox.Show("Value must be an integer between 1 and 100");
+                framerate_txtBox.Text = sim.randomizationFactor.ToString();
+            }
+            else
+                this.framerate = newVal;
+        }
+
+        private void sRuleset_txtbx_TextChanged(object sender, EventArgs e)
+        {
+            bool[] newVal = new bool[9] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            foreach (char c in sRuleset_txtbx.Text)
+            {
+                int val;
+                bool result = int.TryParse(c.ToString(), out val);
+
+                if (!result || (val < 1) || (val > 9))
+                {
+                    MessageBox.Show("Value must be numbers 1 - 9 in any arrangement, with any of them missing");
+                    sRuleset_txtbx.Text = Utils.FlattenArrayOfBoolsToNumbers(Simulation.surviveConds);
+                    return;
+                }
+
+                newVal[val - 1] = true;
+            }
+
+            Simulation.surviveConds = newVal;
+        }
+
+        private void bRuleset_txtbx_TextChanged(object sender, EventArgs e)
+        {
+            bool[] newVal = new bool[9] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            foreach (char c in bRuleset_txtbx.Text)
+            {
+                int val;
+                bool result = int.TryParse(c.ToString(), out val);
+
+                if (!result || (val < 1) || (val > 9))
+                {
+                    MessageBox.Show("Value must be numbers 1 - 9 in any arrangement, with any of them missing");
+                    sRuleset_txtbx.Text = Utils.FlattenArrayOfBoolsToNumbers(Simulation.newCellBeBornConds);
+                    return;
+                }
+
+                newVal[val - 1] = true;
+            }
+
+            Simulation.newCellBeBornConds = newVal;
         }
     }
 

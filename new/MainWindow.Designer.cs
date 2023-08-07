@@ -49,7 +49,10 @@ namespace modified_gol
             this.cells_pnl = new System.Windows.Forms.Panel();
             this.chooser_tabControl = new System.Windows.Forms.TabControl();
             this.healthy_chooserTab = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
+            this.bRuleset_txtbx = new System.Windows.Forms.TextBox();
+            this.sRuleset_txtbx = new System.Windows.Forms.TextBox();
+            this.bRuleset_lbl = new System.Windows.Forms.Label();
+            this.sRuleset_lbl = new System.Windows.Forms.Label();
             this.sickPeaceful_chooserTab = new System.Windows.Forms.TabPage();
             this.sickAggresive_chooserTab = new System.Windows.Forms.TabPage();
             this.autoplay_timer = new System.Windows.Forms.Timer(this.components);
@@ -57,6 +60,8 @@ namespace modified_gol
             this.simulation_saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.simulation_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.simulationGIF_saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.label1 = new System.Windows.Forms.Label();
+            this.framerate_txtBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.speed_trackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.size_trackBar)).BeginInit();
             this.chooser_tabControl.SuspendLayout();
@@ -161,10 +166,10 @@ namespace modified_gol
             // startStopRecording_btn
             // 
             this.startStopRecording_btn.ForeColor = System.Drawing.Color.Black;
-            this.startStopRecording_btn.Location = new System.Drawing.Point(27, 211);
+            this.startStopRecording_btn.Location = new System.Drawing.Point(16, 222);
             this.startStopRecording_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.startStopRecording_btn.Name = "startStopRecording_btn";
-            this.startStopRecording_btn.Size = new System.Drawing.Size(115, 19);
+            this.startStopRecording_btn.Size = new System.Drawing.Size(91, 19);
             this.startStopRecording_btn.TabIndex = 9;
             this.startStopRecording_btn.Text = "Start recording";
             this.startStopRecording_btn.UseVisualStyleBackColor = true;
@@ -173,7 +178,7 @@ namespace modified_gol
             // saveStateToFile_btn
             // 
             this.saveStateToFile_btn.ForeColor = System.Drawing.Color.Black;
-            this.saveStateToFile_btn.Location = new System.Drawing.Point(27, 250);
+            this.saveStateToFile_btn.Location = new System.Drawing.Point(125, 294);
             this.saveStateToFile_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveStateToFile_btn.Name = "saveStateToFile_btn";
             this.saveStateToFile_btn.Size = new System.Drawing.Size(115, 19);
@@ -185,10 +190,10 @@ namespace modified_gol
             // loadStateFromFile_btn
             // 
             this.loadStateFromFile_btn.ForeColor = System.Drawing.Color.Black;
-            this.loadStateFromFile_btn.Location = new System.Drawing.Point(27, 272);
+            this.loadStateFromFile_btn.Location = new System.Drawing.Point(12, 294);
             this.loadStateFromFile_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.loadStateFromFile_btn.Name = "loadStateFromFile_btn";
-            this.loadStateFromFile_btn.Size = new System.Drawing.Size(115, 19);
+            this.loadStateFromFile_btn.Size = new System.Drawing.Size(107, 19);
             this.loadStateFromFile_btn.TabIndex = 11;
             this.loadStateFromFile_btn.Text = "Load state from file";
             this.loadStateFromFile_btn.UseVisualStyleBackColor = true;
@@ -210,33 +215,62 @@ namespace modified_gol
             this.chooser_tabControl.Controls.Add(this.healthy_chooserTab);
             this.chooser_tabControl.Controls.Add(this.sickPeaceful_chooserTab);
             this.chooser_tabControl.Controls.Add(this.sickAggresive_chooserTab);
-            this.chooser_tabControl.Location = new System.Drawing.Point(10, 310);
+            this.chooser_tabControl.Location = new System.Drawing.Point(12, 332);
             this.chooser_tabControl.Name = "chooser_tabControl";
             this.chooser_tabControl.Padding = new System.Drawing.Point(6, 6);
             this.chooser_tabControl.SelectedIndex = 0;
-            this.chooser_tabControl.Size = new System.Drawing.Size(223, 232);
+            this.chooser_tabControl.Size = new System.Drawing.Size(223, 212);
             this.chooser_tabControl.TabIndex = 14;
             // 
             // healthy_chooserTab
             // 
             this.healthy_chooserTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
-            this.healthy_chooserTab.Controls.Add(this.button1);
+            this.healthy_chooserTab.Controls.Add(this.bRuleset_txtbx);
+            this.healthy_chooserTab.Controls.Add(this.sRuleset_txtbx);
+            this.healthy_chooserTab.Controls.Add(this.bRuleset_lbl);
+            this.healthy_chooserTab.Controls.Add(this.sRuleset_lbl);
             this.healthy_chooserTab.Location = new System.Drawing.Point(4, 28);
             this.healthy_chooserTab.Name = "healthy_chooserTab";
             this.healthy_chooserTab.Padding = new System.Windows.Forms.Padding(3);
-            this.healthy_chooserTab.Size = new System.Drawing.Size(215, 200);
+            this.healthy_chooserTab.Size = new System.Drawing.Size(215, 180);
             this.healthy_chooserTab.TabIndex = 0;
             this.healthy_chooserTab.Text = "Healthy";
             // 
-            // button1
+            // bRuleset_txtbx
             // 
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(43, 76);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(64, 20);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.bRuleset_txtbx.Location = new System.Drawing.Point(67, 44);
+            this.bRuleset_txtbx.Name = "bRuleset_txtbx";
+            this.bRuleset_txtbx.Size = new System.Drawing.Size(51, 20);
+            this.bRuleset_txtbx.TabIndex = 18;
+            this.bRuleset_txtbx.TextChanged += new System.EventHandler(this.bRuleset_txtbx_TextChanged);
+            // 
+            // sRuleset_txtbx
+            // 
+            this.sRuleset_txtbx.Location = new System.Drawing.Point(67, 18);
+            this.sRuleset_txtbx.Name = "sRuleset_txtbx";
+            this.sRuleset_txtbx.Size = new System.Drawing.Size(51, 20);
+            this.sRuleset_txtbx.TabIndex = 17;
+            this.sRuleset_txtbx.TextChanged += new System.EventHandler(this.sRuleset_txtbx_TextChanged);
+            // 
+            // bRuleset_lbl
+            // 
+            this.bRuleset_lbl.AutoSize = true;
+            this.bRuleset_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.bRuleset_lbl.Location = new System.Drawing.Point(6, 42);
+            this.bRuleset_lbl.Name = "bRuleset_lbl";
+            this.bRuleset_lbl.Size = new System.Drawing.Size(55, 15);
+            this.bRuleset_lbl.TabIndex = 2;
+            this.bRuleset_lbl.Text = "B ruleset";
+            // 
+            // sRuleset_lbl
+            // 
+            this.sRuleset_lbl.AutoSize = true;
+            this.sRuleset_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.sRuleset_lbl.Location = new System.Drawing.Point(6, 18);
+            this.sRuleset_lbl.Name = "sRuleset_lbl";
+            this.sRuleset_lbl.Size = new System.Drawing.Size(55, 15);
+            this.sRuleset_lbl.TabIndex = 1;
+            this.sRuleset_lbl.Text = "S ruleset";
             // 
             // sickPeaceful_chooserTab
             // 
@@ -244,7 +278,7 @@ namespace modified_gol
             this.sickPeaceful_chooserTab.Location = new System.Drawing.Point(4, 28);
             this.sickPeaceful_chooserTab.Name = "sickPeaceful_chooserTab";
             this.sickPeaceful_chooserTab.Padding = new System.Windows.Forms.Padding(3);
-            this.sickPeaceful_chooserTab.Size = new System.Drawing.Size(215, 200);
+            this.sickPeaceful_chooserTab.Size = new System.Drawing.Size(215, 180);
             this.sickPeaceful_chooserTab.TabIndex = 1;
             this.sickPeaceful_chooserTab.Text = "Sick - Peaceful";
             // 
@@ -288,12 +322,33 @@ namespace modified_gol
             this.simulationGIF_saveFileDialog.AddExtension = false;
             this.simulationGIF_saveFileDialog.DefaultExt = "gif";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1.Location = new System.Drawing.Point(15, 246);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(67, 15);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Framerate:";
+            // 
+            // framerate_txtBox
+            // 
+            this.framerate_txtBox.Location = new System.Drawing.Point(88, 246);
+            this.framerate_txtBox.Name = "framerate_txtBox";
+            this.framerate_txtBox.Size = new System.Drawing.Size(31, 20);
+            this.framerate_txtBox.TabIndex = 16;
+            this.framerate_txtBox.Text = "4";
+            this.framerate_txtBox.TextChanged += new System.EventHandler(this.framerate_txtBox_TextChanged);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.framerate_txtBox);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.chooser_tabControl);
             this.Controls.Add(this.cells_pnl);
             this.Controls.Add(this.loadStateFromFile_btn);
@@ -318,6 +373,7 @@ namespace modified_gol
             ((System.ComponentModel.ISupportInitialize)(this.size_trackBar)).EndInit();
             this.chooser_tabControl.ResumeLayout(false);
             this.healthy_chooserTab.ResumeLayout(false);
+            this.healthy_chooserTab.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -340,12 +396,17 @@ namespace modified_gol
         private TabControl chooser_tabControl;
         private TabPage healthy_chooserTab;
         private TabPage sickPeaceful_chooserTab;
-        private Button button1;
         private TabPage sickAggresive_chooserTab;
         private Timer autoplay_timer;
         private TextBox randomizeCells_txtbx;
         private SaveFileDialog simulation_saveFileDialog;
         private OpenFileDialog simulation_openFileDialog;
         private SaveFileDialog simulationGIF_saveFileDialog;
+        private Label label1;
+        private TextBox framerate_txtBox;
+        private Label sRuleset_lbl;
+        private Label bRuleset_lbl;
+        private TextBox bRuleset_txtbx;
+        private TextBox sRuleset_txtbx;
     }
 }

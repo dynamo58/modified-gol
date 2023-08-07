@@ -15,7 +15,7 @@ namespace modified_gol
     class Cell
     {
         public Organism occupier;
-
+        
         public Cell()
         {
             this.occupier = null;
@@ -35,6 +35,17 @@ namespace modified_gol
         public int speed;
         public int randomizationFactor;
         public int generationCount;
+        // possible amounts of neighbors for an empty cell to become a new organism
+        [JsonProperty]
+        public static bool[] newCellBeBornConds = new bool[9] {
+            false, false, true, false, false, false, false, false, false
+        };
+        // possible amounts of neighbors for a cell to survive
+        [JsonProperty]
+        public static bool[] surviveConds = new bool[9] {
+            false, true, true, false, false, false, false, false, false
+        };
+
 
         public Simulation(int size, int speed, int randomizationFactor)
         {

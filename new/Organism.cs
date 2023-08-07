@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace modified_gol
 {
@@ -15,13 +10,10 @@ namespace modified_gol
         public enum Kind { Dead, Healthy, Infected, PeacefulSick, AggresiveSick }
         
         public Kind kind;
-        // possible amounts of neighbors for a cell to become a new organism
-        public static int[] newCellBeBornConds = new int[] { 3 };
-
 
         public static Organism DecideEmptyCellNextState(int healthyNeighborCount)
         {
-            if (Organism.newCellBeBornConds.Contains(healthyNeighborCount))
+            if (healthyNeighborCount > 0 && Simulation.newCellBeBornConds[healthyNeighborCount-1])
                 return new HealthyOrganism();
             return null;
         }
@@ -30,17 +22,15 @@ namespace modified_gol
         public abstract Brush GetBrush();
     }
 
-    [JsonDerivedType(typeof(HealthyOrganism), typeDiscriminator: "healthy")]
     internal class HealthyOrganism : Organism
     {
-        // possible amounts of neighbors for a cell to survive
-        public static int[] surviveConds = new int[] { 2, 3 };
-
         public override Brush GetBrush() => Brushes.Green;
 
         public override Organism DecideNextState(int healthyNeighborCount)
         {
-            return (HealthyOrganism.surviveConds.Contains(healthyNeighborCount) ? this : null);
+            if (healthyNeighborCount > 0 && Simulation.surviveConds[healthyNeighborCount - 1])
+                return this;
+            return null;
         }
 
         public HealthyOrganism()
@@ -49,7 +39,6 @@ namespace modified_gol
         }
     }
 
-    [JsonDerivedType(typeof(InfectedOrganism), typeDiscriminator: "infected")]
     internal class InfectedOrganism : Organism
     {
         // number of generations before a sickness becomes apparent
@@ -79,7 +68,6 @@ namespace modified_gol
         }
     }
 
-    [JsonDerivedType(typeof(PeacefulSickOrganism), typeDiscriminator: "peacefulsick")]
     internal class PeacefulSickOrganism : Organism
     {
         // number of generations a cell remains sick before it either dies or heals
@@ -112,7 +100,6 @@ namespace modified_gol
         }
     }
 
-    [JsonDerivedType(typeof(AggresiveSickOrganism), typeDiscriminator: "peacefulaggresive")]
     internal class AggresiveSickOrganism : Organism
     {
         // how many days without "eating" for an aggressive cell to die

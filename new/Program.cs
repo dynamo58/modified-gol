@@ -43,5 +43,21 @@ namespace modified_gol
         {
             return (lower <= vals.Item1 && vals.Item1 <= upper) && (lower <= vals.Item2 && vals.Item2 <= upper);
         }
+
+        public static String FlattenArrayOfBoolsToNumbers(bool[] arr)
+        {
+            string output = "";
+
+            for (int i = 0; i < arr.Length; i++)
+                if (arr[i])
+                    output += (i+1).ToString();
+
+            return output;
+        }
+        
+        //public bool IsValidIntegerInRangeIncl(string str, int low, int high)
+        //{
+
+        //}
     }
 }
