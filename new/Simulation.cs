@@ -49,6 +49,10 @@ namespace modified_gol
         public static int incubationPeriod = 3;
         [JsonProperty]
         public static int chanceOfInfectedHealing = 30;
+        [JsonProperty]
+        public static int sporadicInfectionChance = 0;
+        [JsonProperty]
+        public static int hungerStrikeThreshold = 5;
 
 
         public Simulation(int size, int speed, int randomizationFactor)
@@ -148,7 +152,6 @@ namespace modified_gol
                     if (this.cells[i,j].occupier != null && this.cells[i, j].occupier.kind == Organism.Kind.AggresiveSick)
                         foreach ((int x, int y) in UnagressiveNeighbors(i, j))
                         {
-                            Utils.Debug($"{i} {j} eatable neighbor at {x} {y}");
                             this.cells[x, y].occupier = null;
                             (this.cells[i, j].occupier as AggressiveOrganism).currentHungerStrike = 0;
                         }

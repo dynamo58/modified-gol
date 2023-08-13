@@ -54,10 +54,5 @@ namespace modified_gol
 
             return output;
         }
-        
-        //public bool IsValidIntegerInRangeIncl(string str, int low, int high)
-        //{
-
-        //}
     }
 }

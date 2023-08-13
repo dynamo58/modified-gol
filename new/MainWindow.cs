@@ -33,6 +33,27 @@ namespace modified_gol
                 Directory.CreateDirectory(Path.GetTempPath() + "\\modified-gol");
         }
 
+        private void UpdateEntireUIFromSimulation()
+        {
+            speed_trackBar.Value = sim.speed;
+            speed_lbl.Text = $"Speed: {speed_trackBar.Value}";
+
+            size_trackBar.Value = sim.boardSize;
+            size_lbl.Text = $"Size: {size_trackBar.Value}";
+
+            bRuleset_txtbx.Text = Utils.FlattenArrayOfBoolsToNumbers(Simulation.newCellBeBornConds);
+            sRuleset_txtbx.Text = Utils.FlattenArrayOfBoolsToNumbers(Simulation.surviveConds);
+
+            incubationPeriod_txtbx.Text = Simulation.incubationPeriod.ToString();
+            chanceOfHealing_txtbx.Text = Simulation.chanceOfInfectedHealing.ToString();
+
+            sporadicInfectionChance_txtbx.Text = Simulation.sporadicInfectionChance.ToString();
+
+            randomizeCells_txtbx.Text = sim.randomizationFactor.ToString();
+
+            cells_pnl.Refresh();
+        }
+
         private void cells_pnl_Paint(object sender, PaintEventArgs e)
         {
             Graphics canvas = e.Graphics;
@@ -172,25 +193,6 @@ namespace modified_gol
             }
         }
 
-        private void UpdateEntireUIFromSimulation()
-        {
-            speed_trackBar.Value = sim.speed;
-            speed_lbl.Text = $"Speed: {speed_trackBar.Value}";
-
-            size_trackBar.Value = sim.boardSize;
-            size_lbl.Text = $"Size: {size_trackBar.Value}";
-
-            bRuleset_txtbx.Text = Utils.FlattenArrayOfBoolsToNumbers(Simulation.newCellBeBornConds);
-            sRuleset_txtbx.Text = Utils.FlattenArrayOfBoolsToNumbers(Simulation.surviveConds);
-
-            incubationPeriod_txtbx.Text = Simulation.incubationPeriod.ToString();
-            chanceOfHealing_txtbx.Text = Simulation.chanceOfInfectedHealing.ToString();
-
-            randomizeCells_txtbx.Text = sim.randomizationFactor.ToString();
-
-            cells_pnl.Refresh();
-        }
-
         // handle recording switching
         private void startStopRecording_btn_Click(object sender, EventArgs e)
         {
@@ -232,8 +234,7 @@ namespace modified_gol
 
         private void framerate_txtBox_TextChanged(object sender, EventArgs e)
         {
-            int newVal;
-            bool result = int.TryParse(framerate_txtBox.Text, out newVal);
+            bool result = int.TryParse(framerate_txtBox.Text, out int newVal);
 
             if (!result || (newVal < 1) || (newVal > 100))
             {
@@ -252,8 +253,7 @@ namespace modified_gol
 
             foreach (char c in sRuleset_txtbx.Text)
             {
-                int val;
-                bool result = int.TryParse(c.ToString(), out val);
+                bool result = int.TryParse(c.ToString(), out int val);
 
                 if (!result || (val < 1) || (val > 9))
                 {
@@ -276,8 +276,7 @@ namespace modified_gol
 
             foreach (char c in bRuleset_txtbx.Text)
             {
-                int val;
-                bool result = int.TryParse(c.ToString(), out val);
+                bool result = int.TryParse(c.ToString(), out int val);
 
                 if (!result || (val < 1) || (val > 9))
                 {
@@ -294,8 +293,7 @@ namespace modified_gol
 
         private void incubationPeriod_txtbx_TextChanged(object sender, EventArgs e)
         {
-            int newVal;
-            bool result = int.TryParse(incubationPeriod_txtbx.Text, out newVal);
+            bool result = int.TryParse(incubationPeriod_txtbx.Text, out int newVal);
 
             if (!result || (newVal < 0))
             {
@@ -308,8 +306,7 @@ namespace modified_gol
 
         private void chanceOfHealing_txtbx_TextChanged(object sender, EventArgs e)
         {
-            int newVal;
-            bool result = int.TryParse(chanceOfHealing_txtbx.Text, out newVal);
+            bool result = int.TryParse(chanceOfHealing_txtbx.Text, out int newVal);
 
             if (!result || (newVal < 0) || (newVal > 100))
             {
@@ -318,6 +315,32 @@ namespace modified_gol
             }
             else
                 Simulation.chanceOfInfectedHealing = newVal;
+        }
+
+        private void sporadicInfectionChance_txtbx_TextChanged(object sender, EventArgs e)
+        {
+            bool result = int.TryParse(sporadicInfectionChance_txtbx.Text, out int newVal);
+
+            if (!result || (newVal < 0) || (newVal > 100))
+            {
+                MessageBox.Show("Value must be an integer between 0 and 100.");
+                sporadicInfectionChance_txtbx.Text = Simulation.sporadicInfectionChance.ToString();
+            }
+            else
+                Simulation.sporadicInfectionChance = newVal;
+        }
+
+        private void hungerStrikeThreshold_txtbx_TextChanged(object sender, EventArgs e)
+        {
+            bool result = int.TryParse(hungerStrikeThreshold_txtbx.Text, out int newVal);
+
+            if (!result || (newVal < 0))
+            {
+                MessageBox.Show("Value must be an integer greater or equal to 0.");
+                hungerStrikeThreshold_txtbx.Text = Simulation.hungerStrikeThreshold.ToString();
+            }
+            else
+                Simulation.hungerStrikeThreshold = newVal;
         }
     }
 
