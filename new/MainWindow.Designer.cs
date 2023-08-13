@@ -53,8 +53,12 @@ namespace modified_gol
             this.sRuleset_txtbx = new System.Windows.Forms.TextBox();
             this.bRuleset_lbl = new System.Windows.Forms.Label();
             this.sRuleset_lbl = new System.Windows.Forms.Label();
-            this.sickPeaceful_chooserTab = new System.Windows.Forms.TabPage();
-            this.sickAggresive_chooserTab = new System.Windows.Forms.TabPage();
+            this.infected_chooserTab = new System.Windows.Forms.TabPage();
+            this.chanceOfAggression_lbl = new System.Windows.Forms.Label();
+            this.chanceOfHealing_txtbx = new System.Windows.Forms.TextBox();
+            this.incubationPeriod_txtbx = new System.Windows.Forms.TextBox();
+            this.incubationPeriod_lbl = new System.Windows.Forms.Label();
+            this.aggressive_chooserTab = new System.Windows.Forms.TabPage();
             this.autoplay_timer = new System.Windows.Forms.Timer(this.components);
             this.randomizeCells_txtbx = new System.Windows.Forms.TextBox();
             this.simulation_saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -62,10 +66,12 @@ namespace modified_gol
             this.simulationGIF_saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.label1 = new System.Windows.Forms.Label();
             this.framerate_txtBox = new System.Windows.Forms.TextBox();
+            this.sporadicInfection = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.speed_trackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.size_trackBar)).BeginInit();
             this.chooser_tabControl.SuspendLayout();
             this.healthy_chooserTab.SuspendLayout();
+            this.infected_chooserTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // startStop_btn
@@ -178,7 +184,7 @@ namespace modified_gol
             // saveStateToFile_btn
             // 
             this.saveStateToFile_btn.ForeColor = System.Drawing.Color.Black;
-            this.saveStateToFile_btn.Location = new System.Drawing.Point(125, 294);
+            this.saveStateToFile_btn.Location = new System.Drawing.Point(12, 316);
             this.saveStateToFile_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveStateToFile_btn.Name = "saveStateToFile_btn";
             this.saveStateToFile_btn.Size = new System.Drawing.Size(115, 19);
@@ -190,7 +196,7 @@ namespace modified_gol
             // loadStateFromFile_btn
             // 
             this.loadStateFromFile_btn.ForeColor = System.Drawing.Color.Black;
-            this.loadStateFromFile_btn.Location = new System.Drawing.Point(12, 294);
+            this.loadStateFromFile_btn.Location = new System.Drawing.Point(12, 283);
             this.loadStateFromFile_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.loadStateFromFile_btn.Name = "loadStateFromFile_btn";
             this.loadStateFromFile_btn.Size = new System.Drawing.Size(107, 19);
@@ -202,7 +208,7 @@ namespace modified_gol
             // cells_pnl
             // 
             this.cells_pnl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.cells_pnl.Location = new System.Drawing.Point(253, 11);
+            this.cells_pnl.Location = new System.Drawing.Point(193, 11);
             this.cells_pnl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cells_pnl.Name = "cells_pnl";
             this.cells_pnl.Size = new System.Drawing.Size(527, 533);
@@ -213,18 +219,19 @@ namespace modified_gol
             // chooser_tabControl
             // 
             this.chooser_tabControl.Controls.Add(this.healthy_chooserTab);
-            this.chooser_tabControl.Controls.Add(this.sickPeaceful_chooserTab);
-            this.chooser_tabControl.Controls.Add(this.sickAggresive_chooserTab);
-            this.chooser_tabControl.Location = new System.Drawing.Point(12, 332);
+            this.chooser_tabControl.Controls.Add(this.infected_chooserTab);
+            this.chooser_tabControl.Controls.Add(this.aggressive_chooserTab);
+            this.chooser_tabControl.Location = new System.Drawing.Point(12, 353);
             this.chooser_tabControl.Name = "chooser_tabControl";
             this.chooser_tabControl.Padding = new System.Drawing.Point(6, 6);
             this.chooser_tabControl.SelectedIndex = 0;
-            this.chooser_tabControl.Size = new System.Drawing.Size(223, 212);
+            this.chooser_tabControl.Size = new System.Drawing.Size(166, 191);
             this.chooser_tabControl.TabIndex = 14;
             // 
             // healthy_chooserTab
             // 
             this.healthy_chooserTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
+            this.healthy_chooserTab.Controls.Add(this.sporadicInfection);
             this.healthy_chooserTab.Controls.Add(this.bRuleset_txtbx);
             this.healthy_chooserTab.Controls.Add(this.sRuleset_txtbx);
             this.healthy_chooserTab.Controls.Add(this.bRuleset_lbl);
@@ -232,7 +239,7 @@ namespace modified_gol
             this.healthy_chooserTab.Location = new System.Drawing.Point(4, 28);
             this.healthy_chooserTab.Name = "healthy_chooserTab";
             this.healthy_chooserTab.Padding = new System.Windows.Forms.Padding(3);
-            this.healthy_chooserTab.Size = new System.Drawing.Size(215, 180);
+            this.healthy_chooserTab.Size = new System.Drawing.Size(158, 159);
             this.healthy_chooserTab.TabIndex = 0;
             this.healthy_chooserTab.Text = "Healthy";
             // 
@@ -272,25 +279,63 @@ namespace modified_gol
             this.sRuleset_lbl.TabIndex = 1;
             this.sRuleset_lbl.Text = "S ruleset";
             // 
-            // sickPeaceful_chooserTab
+            // infected_chooserTab
             // 
-            this.sickPeaceful_chooserTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
-            this.sickPeaceful_chooserTab.Location = new System.Drawing.Point(4, 28);
-            this.sickPeaceful_chooserTab.Name = "sickPeaceful_chooserTab";
-            this.sickPeaceful_chooserTab.Padding = new System.Windows.Forms.Padding(3);
-            this.sickPeaceful_chooserTab.Size = new System.Drawing.Size(215, 180);
-            this.sickPeaceful_chooserTab.TabIndex = 1;
-            this.sickPeaceful_chooserTab.Text = "Sick - Peaceful";
+            this.infected_chooserTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
+            this.infected_chooserTab.Controls.Add(this.chanceOfAggression_lbl);
+            this.infected_chooserTab.Controls.Add(this.chanceOfHealing_txtbx);
+            this.infected_chooserTab.Controls.Add(this.incubationPeriod_txtbx);
+            this.infected_chooserTab.Controls.Add(this.incubationPeriod_lbl);
+            this.infected_chooserTab.Location = new System.Drawing.Point(4, 28);
+            this.infected_chooserTab.Name = "infected_chooserTab";
+            this.infected_chooserTab.Padding = new System.Windows.Forms.Padding(3);
+            this.infected_chooserTab.Size = new System.Drawing.Size(158, 159);
+            this.infected_chooserTab.TabIndex = 1;
+            this.infected_chooserTab.Text = "Infected";
             // 
-            // sickAggresive_chooserTab
+            // chanceOfAggression_lbl
             // 
-            this.sickAggresive_chooserTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
-            this.sickAggresive_chooserTab.Location = new System.Drawing.Point(4, 28);
-            this.sickAggresive_chooserTab.Name = "sickAggresive_chooserTab";
-            this.sickAggresive_chooserTab.Padding = new System.Windows.Forms.Padding(3);
-            this.sickAggresive_chooserTab.Size = new System.Drawing.Size(215, 200);
-            this.sickAggresive_chooserTab.TabIndex = 2;
-            this.sickAggresive_chooserTab.Text = "Sick - aggresive";
+            this.chanceOfAggression_lbl.AutoSize = true;
+            this.chanceOfAggression_lbl.Location = new System.Drawing.Point(6, 37);
+            this.chanceOfAggression_lbl.Name = "chanceOfAggression_lbl";
+            this.chanceOfAggression_lbl.Size = new System.Drawing.Size(93, 13);
+            this.chanceOfAggression_lbl.TabIndex = 3;
+            this.chanceOfAggression_lbl.Text = "Chance of healing";
+            // 
+            // chanceOfHealing_txtbx
+            // 
+            this.chanceOfHealing_txtbx.Location = new System.Drawing.Point(101, 34);
+            this.chanceOfHealing_txtbx.Name = "chanceOfHealing_txtbx";
+            this.chanceOfHealing_txtbx.Size = new System.Drawing.Size(42, 20);
+            this.chanceOfHealing_txtbx.TabIndex = 2;
+            this.chanceOfHealing_txtbx.TextChanged += new System.EventHandler(this.chanceOfHealing_txtbx_TextChanged);
+            // 
+            // incubationPeriod_txtbx
+            // 
+            this.incubationPeriod_txtbx.Location = new System.Drawing.Point(101, 10);
+            this.incubationPeriod_txtbx.Name = "incubationPeriod_txtbx";
+            this.incubationPeriod_txtbx.Size = new System.Drawing.Size(42, 20);
+            this.incubationPeriod_txtbx.TabIndex = 1;
+            this.incubationPeriod_txtbx.TextChanged += new System.EventHandler(this.incubationPeriod_txtbx_TextChanged);
+            // 
+            // incubationPeriod_lbl
+            // 
+            this.incubationPeriod_lbl.AutoSize = true;
+            this.incubationPeriod_lbl.Location = new System.Drawing.Point(6, 13);
+            this.incubationPeriod_lbl.Name = "incubationPeriod_lbl";
+            this.incubationPeriod_lbl.Size = new System.Drawing.Size(89, 13);
+            this.incubationPeriod_lbl.TabIndex = 0;
+            this.incubationPeriod_lbl.Text = "Incubation period";
+            // 
+            // aggressive_chooserTab
+            // 
+            this.aggressive_chooserTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
+            this.aggressive_chooserTab.Location = new System.Drawing.Point(4, 28);
+            this.aggressive_chooserTab.Name = "aggressive_chooserTab";
+            this.aggressive_chooserTab.Padding = new System.Windows.Forms.Padding(3);
+            this.aggressive_chooserTab.Size = new System.Drawing.Size(158, 159);
+            this.aggressive_chooserTab.TabIndex = 2;
+            this.aggressive_chooserTab.Text = "Aggressive";
             // 
             // autoplay_timer
             // 
@@ -341,6 +386,15 @@ namespace modified_gol
             this.framerate_txtBox.Text = "4";
             this.framerate_txtBox.TextChanged += new System.EventHandler(this.framerate_txtBox_TextChanged);
             // 
+            // sporadicInfection
+            // 
+            this.sporadicInfection.AutoSize = true;
+            this.sporadicInfection.Location = new System.Drawing.Point(6, 103);
+            this.sporadicInfection.Name = "sporadicInfection";
+            this.sporadicInfection.Size = new System.Drawing.Size(131, 13);
+            this.sporadicInfection.TabIndex = 19;
+            this.sporadicInfection.Text = "Sporadic infection chance";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -374,6 +428,8 @@ namespace modified_gol
             this.chooser_tabControl.ResumeLayout(false);
             this.healthy_chooserTab.ResumeLayout(false);
             this.healthy_chooserTab.PerformLayout();
+            this.infected_chooserTab.ResumeLayout(false);
+            this.infected_chooserTab.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -395,8 +451,8 @@ namespace modified_gol
         private Panel cells_pnl;
         private TabControl chooser_tabControl;
         private TabPage healthy_chooserTab;
-        private TabPage sickPeaceful_chooserTab;
-        private TabPage sickAggresive_chooserTab;
+        private TabPage infected_chooserTab;
+        private TabPage aggressive_chooserTab;
         private Timer autoplay_timer;
         private TextBox randomizeCells_txtbx;
         private SaveFileDialog simulation_saveFileDialog;
@@ -408,5 +464,10 @@ namespace modified_gol
         private Label bRuleset_lbl;
         private TextBox bRuleset_txtbx;
         private TextBox sRuleset_txtbx;
+        private TextBox incubationPeriod_txtbx;
+        private Label incubationPeriod_lbl;
+        private Label chanceOfAggression_lbl;
+        private TextBox chanceOfHealing_txtbx;
+        private Label sporadicInfection;
     }
 }

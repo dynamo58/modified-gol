@@ -41,24 +41,21 @@ namespace modified_gol
 
     internal class InfectedOrganism : Organism
     {
-        // number of generations before a sickness becomes apparent
-        public static int incubationPeriod = 3;
-        public static int chanceOfInfectectionCausingAggretion = 30;
         public int currentDaysIncubating = 0;
 
-        public override Brush GetBrush() => Brushes.Yellow;
+        public override Brush GetBrush() => Brushes.Orange;
 
         public override Organism DecideNextState(int healthyNeighborCount)
         {
             this.currentDaysIncubating += 1;
 
-            if (this.currentDaysIncubating == InfectedOrganism.incubationPeriod)
+            if (this.currentDaysIncubating >= Simulation.incubationPeriod)
             {
-                bool newIsAggresive = Program._rand.Next(1, 101) < InfectedOrganism.chanceOfInfectectionCausingAggretion;
+                bool cellHeals = Program._rand.Next(1, 101) <  Simulation.chanceOfInfectedHealing;
 
-                return (newIsAggresive) ? (new AggresiveSickOrganism() as Organism) : (new PeacefulSickOrganism() as Organism);
+                return (cellHeals) ? (new HealthyOrganism() as Organism) : (new AggressiveOrganism() as Organism);
             }
-                
+            
             return this;
         }
 
@@ -68,39 +65,7 @@ namespace modified_gol
         }
     }
 
-    internal class PeacefulSickOrganism : Organism
-    {
-        // number of generations a cell remains sick before it either dies or heals
-        public static int generationsUntilRecoveryOrDeath = 3;
-        public int currentNumberOfGenerationsSick = 0;
-        // chance in percantages that the cell survives the sickness 
-        public static int chanceOfRecovery = 30;
-
-        public override Brush GetBrush() => Brushes.Orange;
-
-        public override Organism DecideNextState(int healthyNeighborCount)
-        {
-            this.currentNumberOfGenerationsSick += 1;
-
-            if (this.currentNumberOfGenerationsSick == PeacefulSickOrganism.generationsUntilRecoveryOrDeath)
-            {
-                // play god
-                bool keepAlive = Program._rand.Next(1, 101) < PeacefulSickOrganism.chanceOfRecovery;
-
-                // the org. has healed!
-                return (keepAlive) ? new HealthyOrganism() : null;
-            }
-
-            return this;
-        }
-
-        public PeacefulSickOrganism()
-        {
-            this.kind = Kind.PeacefulSick;
-        }
-    }
-
-    internal class AggresiveSickOrganism : Organism
+    internal class AggressiveOrganism : Organism
     {
         // how many days without "eating" for an aggressive cell to die
         public static int hungerStrikeThreshold = 5;
@@ -112,10 +77,10 @@ namespace modified_gol
         {
             this.currentHungerStrike += 1;
             // if the org. hasn't eaten in a while, it shall die
-            return (this.currentHungerStrike == AggresiveSickOrganism.hungerStrikeThreshold) ? null : this;
+            return (this.currentHungerStrike == AggressiveOrganism.hungerStrikeThreshold) ? null : this;
         }
 
-        public AggresiveSickOrganism()
+        public AggressiveOrganism()
         {
             this.kind = Kind.AggresiveSick;
         }

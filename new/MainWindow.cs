@@ -72,11 +72,11 @@ namespace modified_gol
                     case "healthy_chooserTab":
                         newCell = new HealthyOrganism();
                         break;
-                    case "sickPeaceful_chooserTab":
-                        newCell = new PeacefulSickOrganism();
+                    case "infected_chooserTab":
+                        newCell = new InfectedOrganism();
                         break;
-                    case "sickAggresive_chooserTab":
-                        newCell = new AggresiveSickOrganism();
+                    case "aggressive_chooserTab":
+                        newCell = new AggressiveOrganism();
                         break;
                     default:
                         throw new UnreachableException("THIS IS UNREACHABLE");
@@ -183,6 +183,9 @@ namespace modified_gol
             bRuleset_txtbx.Text = Utils.FlattenArrayOfBoolsToNumbers(Simulation.newCellBeBornConds);
             sRuleset_txtbx.Text = Utils.FlattenArrayOfBoolsToNumbers(Simulation.surviveConds);
 
+            incubationPeriod_txtbx.Text = Simulation.incubationPeriod.ToString();
+            chanceOfHealing_txtbx.Text = Simulation.chanceOfInfectedHealing.ToString();
+
             randomizeCells_txtbx.Text = sim.randomizationFactor.ToString();
 
             cells_pnl.Refresh();
@@ -287,6 +290,34 @@ namespace modified_gol
             }
 
             Simulation.newCellBeBornConds = newVal;
+        }
+
+        private void incubationPeriod_txtbx_TextChanged(object sender, EventArgs e)
+        {
+            int newVal;
+            bool result = int.TryParse(incubationPeriod_txtbx.Text, out newVal);
+
+            if (!result || (newVal < 0))
+            {
+                MessageBox.Show("Value must be an integer greater or equal to 0.");
+                incubationPeriod_txtbx.Text = Simulation.incubationPeriod.ToString();
+            }
+            else
+                Simulation.incubationPeriod = newVal;
+        }
+
+        private void chanceOfHealing_txtbx_TextChanged(object sender, EventArgs e)
+        {
+            int newVal;
+            bool result = int.TryParse(chanceOfHealing_txtbx.Text, out newVal);
+
+            if (!result || (newVal < 0) || (newVal > 100))
+            {
+                MessageBox.Show("Value must be an integer between 0 and 100.");
+                chanceOfHealing_txtbx.Text = Simulation.chanceOfInfectedHealing.ToString();
+            }
+            else
+                Simulation.chanceOfInfectedHealing = newVal;
         }
     }
 

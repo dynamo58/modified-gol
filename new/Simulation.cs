@@ -45,6 +45,10 @@ namespace modified_gol
         public static bool[] surviveConds = new bool[9] {
             false, true, true, false, false, false, false, false, false
         };
+        [JsonProperty]
+        public static int incubationPeriod = 3;
+        [JsonProperty]
+        public static int chanceOfInfectedHealing = 30;
 
 
         public Simulation(int size, int speed, int randomizationFactor)
@@ -146,7 +150,7 @@ namespace modified_gol
                         {
                             Utils.Debug($"{i} {j} eatable neighbor at {x} {y}");
                             this.cells[x, y].occupier = null;
-                            (this.cells[i, j].occupier as AggresiveSickOrganism).currentHungerStrike = 0;
+                            (this.cells[i, j].occupier as AggressiveOrganism).currentHungerStrike = 0;
                         }
 
             // ...then the others
