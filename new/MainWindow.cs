@@ -51,6 +51,8 @@ namespace modified_gol
 
             randomizeCells_txtbx.Text = sim.randomizationFactor.ToString();
 
+            currentGenerationVal_lbl.Text = sim.generationCount.ToString();
+
             cells_pnl.Refresh();
         }
 
@@ -114,6 +116,7 @@ namespace modified_gol
         private void manual_btn_Click(object sender, EventArgs e)
         {
             sim.AdvanceGeneration();
+            currentGenerationVal_lbl.Text = sim.generationCount.ToString();
             this.WriteCellsToGif();
             cells_pnl.Refresh();
         }
@@ -141,6 +144,7 @@ namespace modified_gol
         private void autoplay_timer_Tick(object sender, EventArgs e)
         {
             sim.AdvanceGeneration();
+            currentGenerationVal_lbl.Text = sim.generationCount.ToString();
             if (recording) this.WriteCellsToGif();
             cells_pnl.Refresh();
         }

@@ -70,6 +70,8 @@ namespace modified_gol
             this.framerate_txtBox = new System.Windows.Forms.TextBox();
             this.hungerStrikeThreshold_lbl = new System.Windows.Forms.Label();
             this.hungerStrikeThreshold_txtbx = new System.Windows.Forms.TextBox();
+            this.currentGenerationPre_lbl = new System.Windows.Forms.Label();
+            this.currentGenerationVal_lbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.speed_trackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.size_trackBar)).BeginInit();
             this.chooser_tabControl.SuspendLayout();
@@ -119,7 +121,7 @@ namespace modified_gol
             // size_trackBar
             // 
             this.size_trackBar.LargeChange = 1;
-            this.size_trackBar.Location = new System.Drawing.Point(63, 104);
+            this.size_trackBar.Location = new System.Drawing.Point(62, 96);
             this.size_trackBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.size_trackBar.Maximum = 100;
             this.size_trackBar.Minimum = 10;
@@ -133,7 +135,7 @@ namespace modified_gol
             // speed_lbl
             // 
             this.speed_lbl.AutoSize = true;
-            this.speed_lbl.Location = new System.Drawing.Point(9, 70);
+            this.speed_lbl.Location = new System.Drawing.Point(6, 64);
             this.speed_lbl.Name = "speed_lbl";
             this.speed_lbl.Size = new System.Drawing.Size(56, 13);
             this.speed_lbl.TabIndex = 4;
@@ -143,7 +145,7 @@ namespace modified_gol
             // size_lbl
             // 
             this.size_lbl.AutoSize = true;
-            this.size_lbl.Location = new System.Drawing.Point(15, 104);
+            this.size_lbl.Location = new System.Drawing.Point(6, 96);
             this.size_lbl.Name = "size_lbl";
             this.size_lbl.Size = new System.Drawing.Size(45, 13);
             this.size_lbl.TabIndex = 5;
@@ -153,7 +155,7 @@ namespace modified_gol
             // randomizeCells_btn
             // 
             this.randomizeCells_btn.ForeColor = System.Drawing.Color.Black;
-            this.randomizeCells_btn.Location = new System.Drawing.Point(15, 144);
+            this.randomizeCells_btn.Location = new System.Drawing.Point(9, 145);
             this.randomizeCells_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.randomizeCells_btn.Name = "randomizeCells_btn";
             this.randomizeCells_btn.Size = new System.Drawing.Size(106, 19);
@@ -165,7 +167,7 @@ namespace modified_gol
             // clearCells_btn
             // 
             this.clearCells_btn.ForeColor = System.Drawing.Color.Black;
-            this.clearCells_btn.Location = new System.Drawing.Point(51, 174);
+            this.clearCells_btn.Location = new System.Drawing.Point(9, 184);
             this.clearCells_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.clearCells_btn.Name = "clearCells_btn";
             this.clearCells_btn.Size = new System.Drawing.Size(70, 19);
@@ -176,7 +178,7 @@ namespace modified_gol
             // startStopRecording_btn
             // 
             this.startStopRecording_btn.ForeColor = System.Drawing.Color.Black;
-            this.startStopRecording_btn.Location = new System.Drawing.Point(16, 222);
+            this.startStopRecording_btn.Location = new System.Drawing.Point(9, 230);
             this.startStopRecording_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.startStopRecording_btn.Name = "startStopRecording_btn";
             this.startStopRecording_btn.Size = new System.Drawing.Size(91, 19);
@@ -188,10 +190,10 @@ namespace modified_gol
             // saveStateToFile_btn
             // 
             this.saveStateToFile_btn.ForeColor = System.Drawing.Color.Black;
-            this.saveStateToFile_btn.Location = new System.Drawing.Point(12, 316);
+            this.saveStateToFile_btn.Location = new System.Drawing.Point(9, 320);
             this.saveStateToFile_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveStateToFile_btn.Name = "saveStateToFile_btn";
-            this.saveStateToFile_btn.Size = new System.Drawing.Size(115, 19);
+            this.saveStateToFile_btn.Size = new System.Drawing.Size(106, 19);
             this.saveStateToFile_btn.TabIndex = 10;
             this.saveStateToFile_btn.Text = "Save state to file";
             this.saveStateToFile_btn.UseVisualStyleBackColor = true;
@@ -200,7 +202,7 @@ namespace modified_gol
             // loadStateFromFile_btn
             // 
             this.loadStateFromFile_btn.ForeColor = System.Drawing.Color.Black;
-            this.loadStateFromFile_btn.Location = new System.Drawing.Point(12, 283);
+            this.loadStateFromFile_btn.Location = new System.Drawing.Point(9, 297);
             this.loadStateFromFile_btn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.loadStateFromFile_btn.Name = "loadStateFromFile_btn";
             this.loadStateFromFile_btn.Size = new System.Drawing.Size(107, 19);
@@ -212,7 +214,7 @@ namespace modified_gol
             // cells_pnl
             // 
             this.cells_pnl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.cells_pnl.Location = new System.Drawing.Point(193, 11);
+            this.cells_pnl.Location = new System.Drawing.Point(196, 33);
             this.cells_pnl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cells_pnl.Name = "cells_pnl";
             this.cells_pnl.Size = new System.Drawing.Size(527, 533);
@@ -225,11 +227,11 @@ namespace modified_gol
             this.chooser_tabControl.Controls.Add(this.healthy_chooserTab);
             this.chooser_tabControl.Controls.Add(this.infected_chooserTab);
             this.chooser_tabControl.Controls.Add(this.aggressive_chooserTab);
-            this.chooser_tabControl.Location = new System.Drawing.Point(12, 353);
+            this.chooser_tabControl.Location = new System.Drawing.Point(12, 369);
             this.chooser_tabControl.Name = "chooser_tabControl";
             this.chooser_tabControl.Padding = new System.Drawing.Point(6, 6);
             this.chooser_tabControl.SelectedIndex = 0;
-            this.chooser_tabControl.Size = new System.Drawing.Size(166, 191);
+            this.chooser_tabControl.Size = new System.Drawing.Size(178, 197);
             this.chooser_tabControl.TabIndex = 14;
             // 
             // healthy_chooserTab
@@ -357,7 +359,7 @@ namespace modified_gol
             this.aggressive_chooserTab.Location = new System.Drawing.Point(4, 28);
             this.aggressive_chooserTab.Name = "aggressive_chooserTab";
             this.aggressive_chooserTab.Padding = new System.Windows.Forms.Padding(3);
-            this.aggressive_chooserTab.Size = new System.Drawing.Size(158, 159);
+            this.aggressive_chooserTab.Size = new System.Drawing.Size(170, 165);
             this.aggressive_chooserTab.TabIndex = 2;
             this.aggressive_chooserTab.Text = "Aggressive";
             // 
@@ -367,7 +369,7 @@ namespace modified_gol
             // 
             // randomizeCells_txtbx
             // 
-            this.randomizeCells_txtbx.Location = new System.Drawing.Point(125, 144);
+            this.randomizeCells_txtbx.Location = new System.Drawing.Point(121, 144);
             this.randomizeCells_txtbx.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.randomizeCells_txtbx.Name = "randomizeCells_txtbx";
             this.randomizeCells_txtbx.Size = new System.Drawing.Size(36, 20);
@@ -395,7 +397,7 @@ namespace modified_gol
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(15, 246);
+            this.label1.Location = new System.Drawing.Point(9, 251);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(67, 15);
             this.label1.TabIndex = 15;
@@ -403,7 +405,7 @@ namespace modified_gol
             // 
             // framerate_txtBox
             // 
-            this.framerate_txtBox.Location = new System.Drawing.Point(88, 246);
+            this.framerate_txtBox.Location = new System.Drawing.Point(82, 250);
             this.framerate_txtBox.Name = "framerate_txtBox";
             this.framerate_txtBox.Size = new System.Drawing.Size(31, 20);
             this.framerate_txtBox.TabIndex = 16;
@@ -427,12 +429,34 @@ namespace modified_gol
             this.hungerStrikeThreshold_txtbx.TabIndex = 1;
             this.hungerStrikeThreshold_txtbx.TextChanged += new System.EventHandler(this.hungerStrikeThreshold_txtbx_TextChanged);
             // 
+            // currentGenerationPre_lbl
+            // 
+            this.currentGenerationPre_lbl.AutoSize = true;
+            this.currentGenerationPre_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.currentGenerationPre_lbl.Location = new System.Drawing.Point(504, 7);
+            this.currentGenerationPre_lbl.Name = "currentGenerationPre_lbl";
+            this.currentGenerationPre_lbl.Size = new System.Drawing.Size(146, 20);
+            this.currentGenerationPre_lbl.TabIndex = 17;
+            this.currentGenerationPre_lbl.Text = "Current generation:";
+            // 
+            // currentGenerationVal_lbl
+            // 
+            this.currentGenerationVal_lbl.AutoSize = true;
+            this.currentGenerationVal_lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.currentGenerationVal_lbl.Location = new System.Drawing.Point(656, 9);
+            this.currentGenerationVal_lbl.Name = "currentGenerationVal_lbl";
+            this.currentGenerationVal_lbl.Size = new System.Drawing.Size(18, 20);
+            this.currentGenerationVal_lbl.TabIndex = 18;
+            this.currentGenerationVal_lbl.Text = "0";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.currentGenerationVal_lbl);
+            this.Controls.Add(this.currentGenerationPre_lbl);
             this.Controls.Add(this.framerate_txtBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.chooser_tabControl);
@@ -506,5 +530,7 @@ namespace modified_gol
         private TextBox sporadicInfectionChance_txtbx;
         private TextBox hungerStrikeThreshold_txtbx;
         private Label hungerStrikeThreshold_lbl;
+        private Label currentGenerationPre_lbl;
+        private Label currentGenerationVal_lbl;
     }
 }

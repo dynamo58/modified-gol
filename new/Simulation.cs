@@ -34,7 +34,7 @@ namespace modified_gol
         public Cell[,] cells;
         public int speed;
         public int randomizationFactor;
-        public int generationCount;
+        public int generationCount = 0;
         // possible amounts of neighbors for an empty cell to become a new organism
         [JsonProperty]
         public static bool[] newCellBeBornConds = new bool[9] {
@@ -58,7 +58,6 @@ namespace modified_gol
         public Simulation(int size, int speed, int randomizationFactor)
         {
             this.speed = speed;
-            this.generationCount = 0;
             this.boardSize = size;
             this.randomizationFactor = randomizationFactor;
 
