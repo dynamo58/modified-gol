@@ -72,45 +72,25 @@ namespace modified_gol
 
         private void cells_pnl_Click(object sender, EventArgs e)
         {
-            var coords = cells_pnl.PointToClient(Cursor.Position);
+             var coords = cells_pnl.PointToClient(Cursor.Position);
 
             (int x, int y) = (
                 (int)Math.Floor(((coords.X) / (double)((cells_pnl.Width - 2) / sim.boardSize))),
                 (int)Math.Floor(((coords.Y) / (double)((cells_pnl.Width - 2) / sim.boardSize)))
             );
 
-            if (x >= sim.boardSize || y >= sim.boardSize) return;
+            Brush brush = sim.ChangeCellState((x, y), chooser_tabControl.SelectedTab.Name);
 
-            if (sim.cells[x, y].occupier != null)
+            Graphics canvas = cells_pnl.CreateGraphics();
+            int width = (cells_pnl.Width - 2) / sim.boardSize;
+            
+            if (brush == null)
             {
-                int width = (cells_pnl.Width - 2) / sim.boardSize;
                 cells_pnl.Invalidate(new Rectangle(width * x, width * y, width, width));
-                sim.cells[x, y].occupier = null;
+                return;
             }
-            else
-            {
-                Organism newCell;
-                switch (chooser_tabControl.SelectedTab.Name)
-                {
-                    case "healthy_chooserTab":
-                        newCell = new HealthyOrganism();
-                        break;
-                    case "infected_chooserTab":
-                        newCell = new InfectedOrganism();
-                        break;
-                    case "aggressive_chooserTab":
-                        newCell = new AggressiveOrganism();
-                        break;
-                    default:
-                        throw new UnreachableException("THIS IS UNREACHABLE");
-                };
 
-                Graphics canvas = cells_pnl.CreateGraphics();
-                int width = (cells_pnl.Width - 2) / sim.boardSize;
-                canvas.FillRectangle(newCell.GetBrush(), width * x, width * y, width, width);
-                sim.cells[x, y].occupier = newCell;
-                cells_pnl.Refresh();
-            }
+            canvas.FillRectangle(brush, width * x, width * y, width, width);
         }
 
         private void manual_btn_Click(object sender, EventArgs e)
@@ -164,9 +144,11 @@ namespace modified_gol
             {
                 MessageBox.Show("Value must be an integer between 1 and 100");
                 randomizeCells_txtbx.Text = sim.randomizationFactor.ToString();
+                return;
             }
-            else
-                sim.randomizationFactor = newVal;
+
+            sim.HandleUserAction();
+            sim.randomizationFactor = newVal;
         }
 
         private void saveStateToFile_btn_Click(object sender, EventArgs e)
@@ -244,9 +226,10 @@ namespace modified_gol
             {
                 MessageBox.Show("Value must be an integer between 1 and 100");
                 framerate_txtBox.Text = sim.randomizationFactor.ToString();
+                return;
             }
-            else
-                this.framerate = newVal;
+
+            this.framerate = newVal;
         }
 
         private void sRuleset_txtbx_TextChanged(object sender, EventArgs e)
@@ -269,6 +252,7 @@ namespace modified_gol
                 newVal[val - 1] = true;
             }
 
+            sim.HandleUserAction();
             Simulation.surviveConds = newVal;
         }
 
@@ -292,6 +276,7 @@ namespace modified_gol
                 newVal[val - 1] = true;
             }
 
+            sim.HandleUserAction();
             Simulation.newCellBeBornConds = newVal;
         }
 
@@ -303,9 +288,11 @@ namespace modified_gol
             {
                 MessageBox.Show("Value must be an integer greater or equal to 0.");
                 incubationPeriod_txtbx.Text = Simulation.incubationPeriod.ToString();
+                return;
             }
-            else
-                Simulation.incubationPeriod = newVal;
+
+            sim.HandleUserAction();
+            Simulation.incubationPeriod = newVal;
         }
 
         private void chanceOfHealing_txtbx_TextChanged(object sender, EventArgs e)
@@ -316,9 +303,11 @@ namespace modified_gol
             {
                 MessageBox.Show("Value must be an integer between 0 and 100.");
                 chanceOfHealing_txtbx.Text = Simulation.chanceOfInfectedHealing.ToString();
+                return;
             }
-            else
-                Simulation.chanceOfInfectedHealing = newVal;
+
+            sim.HandleUserAction();
+            Simulation.chanceOfInfectedHealing = newVal;
         }
 
         private void sporadicInfectionChance_txtbx_TextChanged(object sender, EventArgs e)
@@ -329,9 +318,11 @@ namespace modified_gol
             {
                 MessageBox.Show("Value must be an integer between 0 and 100.");
                 sporadicInfectionChance_txtbx.Text = Simulation.sporadicInfectionChance.ToString();
+                return;
             }
-            else
-                Simulation.sporadicInfectionChance = newVal;
+
+            sim.HandleUserAction();
+            Simulation.sporadicInfectionChance = newVal;
         }
 
         private void hungerStrikeThreshold_txtbx_TextChanged(object sender, EventArgs e)
@@ -342,9 +333,16 @@ namespace modified_gol
             {
                 MessageBox.Show("Value must be an integer greater or equal to 0.");
                 hungerStrikeThreshold_txtbx.Text = Simulation.hungerStrikeThreshold.ToString();
+                return;
             }
-            else
-                Simulation.hungerStrikeThreshold = newVal;
+
+            sim.HandleUserAction();
+            Simulation.hungerStrikeThreshold = newVal;
+        }
+
+        private void clearCells_btn_Click(object sender, EventArgs e)
+        {
+            sim.Clean();
         }
     }
 

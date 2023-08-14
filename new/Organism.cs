@@ -20,10 +20,22 @@ namespace modified_gol
             return null;
         }
 
+        public static Organism FromStr(string str)
+        {
+            switch (str)
+            {
+                case "healthy": return new HealthyOrganism();
+                case "infected": return new InfectedOrganism();
+                case "aggressive": return new AggressiveOrganism();
+                default: throw new UnreachableException();
+            }
+        }
+
         // gets a colored brush usng which the cell shall be painted
         public abstract Brush GetBrush();
     }
 
+    // a kind of organism that doesnt interact with surroundings in any way
     internal class HealthyOrganism : Organism
     {
         public override Brush GetBrush() => Brushes.Green;
@@ -48,6 +60,7 @@ namespace modified_gol
         }
     }
 
+    // an org. that has been infected, eventually it will either die or turn into an aggressive organism
     internal class InfectedOrganism : Organism
     {
         public int currentDaysIncubating = 0;
@@ -74,9 +87,9 @@ namespace modified_gol
         }
     }
 
+    // an infected organism, that has turned rogue
     internal class AggressiveOrganism : Organism
     {
-        // how many days without "eating" for an aggressive cell to die
         public int currentHungerStrike = 0;
 
         public override Brush GetBrush() => Brushes.Red;
@@ -84,7 +97,7 @@ namespace modified_gol
         public override Organism DecideNextState(int healthyNeighborCount)
         {
             this.currentHungerStrike += 1;
-            // if the org. hasn't eaten in a while, it shall die
+            // if it  hasn't eaten in a while, it shall die
             return (this.currentHungerStrike == Simulation.hungerStrikeThreshold) ? null : this;
         }
 

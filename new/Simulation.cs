@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using System.IO;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
 namespace modified_gol
 {
+    // represents a singular atomic unit in the cells panel
     class Cell
     {
         public Organism occupier;
@@ -27,30 +23,39 @@ namespace modified_gol
         }
     }
 
-
+    // the brain of the simulation
+    // also holds all of the dynamic data that is serialized/deserialized when using an external save of the state
     internal class Simulation
     {
+        // denotes how big the cells panel is (boardSize x boardSize)
         public int boardSize;
         public Cell[,] cells;
-        public int speed;
-        public int randomizationFactor;
+        // when the simulation is being played automatically, how many generations a second are to be generated
+        public int speed = 4;
+        // when the cell randomization button is pressed, whats the chance of each cell to turn int a healthy org.
+        public int randomizationFactor = 35;
+        // current number of generations since last edit
         public int generationCount = 0;
-        // possible amounts of neighbors for an empty cell to become a new organism
+        // possible amounts of neighbors for an empty cell to become a new org.
         [JsonProperty]
         public static bool[] newCellBeBornConds = new bool[9] {
             false, false, true, false, false, false, false, false, false
         };
-        // possible amounts of neighbors for a cell to survive
+        // possible amounts of neighbors for a healthy cell to survive
         [JsonProperty]
         public static bool[] surviveConds = new bool[9] {
             false, true, true, false, false, false, false, false, false
         };
+        // how long it takes an infected cell to heal/aggressify
         [JsonProperty]
         public static int incubationPeriod = 3;
+        // chance that an infected org. heals at the end of its incubation period
         [JsonProperty]
         public static int chanceOfInfectedHealing = 30;
+        // chance that a healthy cell will randomly get infected during a single generation
         [JsonProperty]
         public static int sporadicInfectionChance = 0;
+        // how many generations it takes an aggressive cell to die without food
         [JsonProperty]
         public static int hungerStrikeThreshold = 5;
 
@@ -68,6 +73,8 @@ namespace modified_gol
         // will resize the cell array board according to the new size
         public void Resize(int newSize)
         {
+            this.HandleUserAction();
+
             // do not proceed if no change to the size was made
             if (newSize == this.boardSize) return;
 
@@ -102,6 +109,7 @@ namespace modified_gol
         // wipes the whole board clean
         public void Clean()
         {
+            this.HandleUserAction();
             for (int i = 0; i < this.boardSize; i++)
                 for (int j = 0; j < this.boardSize; j++)
                     this.cells[i, j] = new Cell();
@@ -171,13 +179,46 @@ namespace modified_gol
             this.cells = newBoard;
         }
 
+        public Brush ChangeCellState((int x, int y) coords, string orgStr)
+        {
+
+            if (coords.x >= this.boardSize || coords.y >= this.boardSize)
+                return null;
+
+            this.HandleUserAction();
+
+            if (this.cells[coords.x, coords.y].occupier != null)
+            {
+                this.cells[coords.x, coords.y].occupier = null;
+                return null;
+            }
+            else
+            {
+                Organism newCell = Organism.FromStr(orgStr);
+
+                this.cells[coords.x, coords.y].occupier = newCell;
+                return newCell.GetBrush();
+            }
+        }
+
         public void RandomizeCells()
         {
+            this.HandleUserAction();
+
             for (int i = 0; i < this.boardSize; i++)
                 for (int j = 0; j < this.boardSize; j++)
                     this.cells[i, j].occupier = (Program._rand.Next(0, 101) < this.randomizationFactor) ? new HealthyOrganism() : null;
         }
 
+        public void HandleUserAction()
+        {
+            this.generationCount = 0;
+        }
+
+        // -----------------------------
+        // JSON serialization and deserialization functions
+        // -----------------------------
+        
         public string ToJSON() =>
            JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
             {
