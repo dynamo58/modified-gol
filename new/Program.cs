@@ -36,10 +36,8 @@ namespace modified_gol
                 System.Diagnostics.Debug.WriteLine(s);
         }
 
-        public static bool IsWithinBounds((int, int) vals, int lower, int upper)
-        {
-            return (lower <= vals.Item1 && vals.Item1 <= upper) && (lower <= vals.Item2 && vals.Item2 <= upper);
-        }
+        public static bool IsWithinBounds((int, int) vals, int lower, int upper) =>
+            (lower <= vals.Item1 && vals.Item1 <= upper) && (lower <= vals.Item2 && vals.Item2 <= upper);
 
         public static String FlattenArrayOfBoolsToNumbers(bool[] arr)
         {
