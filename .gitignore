@@ -1,5 +1,12 @@
 .vs/
+
 new/bin/
 new/obj/
 new/publish/
+
+tests/bin/
+tests/obj/
+tests/TestResults/
+TestResults/
+
 packages/
