@@ -5,6 +5,7 @@ namespace tests
     [TestClass]
     public class UnitTest1
     {
+        // helper fction
         private void AssertCells(Cell[,] c1, Cell[,] c2, int len, string? annot)
         {
             for (int i = 0; i < len; i++)
