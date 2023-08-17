@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace modified_gol
 {
-    internal static class Program
+    static class Program
     {
         public static Random _rand = new Random();
 

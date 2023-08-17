@@ -2,9 +2,9 @@
 
 namespace modified_gol
 {
-    abstract internal class Organism
+    abstract public class Organism
     {
-        public enum Kind { Dead, Healthy, Infected, PeacefulSick, AggresiveSick }
+        public enum Kind { Dead, Healthy, Infected, Aggressive }
         public Kind kind;
 
         // performs a computation on what the next state of the cell should be
@@ -33,7 +33,7 @@ namespace modified_gol
     }
 
     // a kind of organism that doesnt interact with surroundings in any way
-    internal class HealthyOrganism : Organism
+    public class HealthyOrganism : Organism
     {
         public override Brush GetBrush() => Brushes.Green;
 
@@ -58,7 +58,7 @@ namespace modified_gol
     }
 
     // an org. that has been infected, eventually it will either die or turn into an aggressive organism
-    internal class InfectedOrganism : Organism
+    public class InfectedOrganism : Organism
     {
         public int currentDaysIncubating = 0;
 
@@ -85,7 +85,7 @@ namespace modified_gol
     }
 
     // an infected organism, that has turned rogue
-    internal class AggressiveOrganism : Organism
+    public class AggressiveOrganism : Organism
     {
         public int currentHungerStrike = 0;
 
@@ -100,7 +100,7 @@ namespace modified_gol
 
         public AggressiveOrganism()
         {
-            this.kind = Kind.AggresiveSick;
+            this.kind = Kind.Aggressive;
         }
     }
 }

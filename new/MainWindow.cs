@@ -53,7 +53,20 @@ namespace modified_gol
 
             currentGenerationVal_lbl.Text = sim.generationCount.ToString();
 
+            hungerStrikeThreshold_txtbx.Text = Simulation.hungerStrikeThreshold.ToString();
+
             cells_pnl.Refresh();
+        }
+
+        // append a frame to the already-existing GIF file
+        private void WriteCellsToGif()
+        {
+            if (!this.recording) return;
+            int width = cells_pnl.Size.Width;
+            int height = cells_pnl.Size.Height;
+            Bitmap bm = new Bitmap(width, height);
+            cells_pnl.DrawToBitmap(bm, new Rectangle(0, 0, width, height));
+            this.gif.AddFrame(bm, delay: -1, quality: GifQuality.Bit8);
         }
 
         private void cells_pnl_Paint(object sender, PaintEventArgs e)
@@ -207,17 +220,6 @@ namespace modified_gol
             }
         }
 
-        // append a frame to the already-existing GIF file
-        private void WriteCellsToGif()
-        {
-            if (!this.recording) return;
-            int width = cells_pnl.Size.Width;
-            int height = cells_pnl.Size.Height;
-            Bitmap bm = new Bitmap(width, height);
-            cells_pnl.DrawToBitmap(bm, new Rectangle(0, 0, width, height));
-            this.gif.AddFrame(bm, delay: -1, quality: GifQuality.Bit8);
-        }
-
         private void framerate_txtBox_TextChanged(object sender, EventArgs e)
         {
             bool result = int.TryParse(framerate_txtBox.Text, out int newVal);
@@ -269,7 +271,7 @@ namespace modified_gol
                 if (!result || (val < 1) || (val > 9))
                 {
                     MessageBox.Show("Value must be numbers 1 - 9 in any arrangement, with any of them missing");
-                    sRuleset_txtbx.Text = Utils.FlattenArrayOfBoolsToNumbers(Simulation.newCellBeBornConds);
+                    bRuleset_txtbx.Text = Utils.FlattenArrayOfBoolsToNumbers(Simulation.newCellBeBornConds);
                     return;
                 }
 
@@ -350,6 +352,5 @@ namespace modified_gol
     public class UnreachableException : Exception
     {
         public UnreachableException() { }
-        public UnreachableException(string message) : base(message) { }
     }
 }

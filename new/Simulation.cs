@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace modified_gol
 {
     // represents a singular atomic unit in the cells panel
-    class Cell
+    public class Cell
     {
         public Organism occupier;
         
@@ -24,7 +24,7 @@ namespace modified_gol
 
     // the brain of the simulation
     // also holds all of the dynamic data that is serialized/deserialized when using an external save of the state
-    internal class Simulation
+    public class Simulation
     {
         // denotes how big the cells panel is (boardSize x boardSize)
         public int boardSize;
@@ -142,7 +142,7 @@ namespace modified_gol
             {
                 (int neighX, int neighY) = (x + relativPoss[i].Item1, y + relativPoss[i].Item2);
                 if (!Utils.IsWithinBounds((neighX, neighY), 0, this.boardSize - 1)) continue;
-                if (this.cells[neighX, neighY].occupier != null && this.cells[neighX, neighY].occupier.kind != Organism.Kind.AggresiveSick)
+                if (this.cells[neighX, neighY].occupier != null && this.cells[neighX, neighY].occupier.kind != Organism.Kind.Aggressive)
                     yield return (neighX, neighY);
             }
         }
@@ -155,7 +155,7 @@ namespace modified_gol
             // firstly take care of all the aggressive cells
             for (int i = 0; i < this.boardSize; i++)
                 for (int j = 0; j < this.boardSize; j++)
-                    if (this.cells[i,j].occupier != null && this.cells[i, j].occupier.kind == Organism.Kind.AggresiveSick)
+                    if (this.cells[i,j].occupier != null && this.cells[i, j].occupier.kind == Organism.Kind.Aggressive)
                         foreach ((int x, int y) in UnagressiveNeighbors(i, j))
                         {
                             this.cells[x, y].occupier = null;
