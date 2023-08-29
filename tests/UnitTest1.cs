@@ -18,26 +18,35 @@ namespace tests
         }
 
         [TestMethod]
-        public void TestClassicS23B3Behavior()
+        public void TestClassicS23B3Behavior_0neighbors()
         {
-            Simulation sim = new Simulation(10,10,10);
+            Simulation sim = new Simulation(10, 10, 10);
             sim.ChangeCellState((0, 1), "healthy");
             sim.AdvanceGeneration();
 
-            AssertCells(sim.cells, (new Simulation(10,10,10)).cells, 10, "S23B3 single healthy unexpected behavior");
-            
+            AssertCells(sim.cells, (new Simulation(10, 10, 10)).cells, 10, "S23B3 single healthy unexpected behavior");
+        }
 
+        [TestMethod]
+        public void TestClassicS23B3Behavior_block()
+        {
+            Simulation sim = new Simulation(10, 10, 10);
+            sim.ChangeCellState((0, 1), "healthy");
             sim.ChangeCellState((0, 0), "healthy");
             sim.ChangeCellState((1, 0), "healthy");
             sim.ChangeCellState((1, 1), "healthy");
-            
+
             Simulation sim2 = (Simulation)sim;
 
             sim.AdvanceGeneration();
 
             AssertCells(sim.cells, sim2.cells, 10, "S23B3 healthy block unexpected behavior");
+        }
 
-            sim = new Simulation(10,10,10);
+        [TestMethod]
+        public void TestClassicS23B3Behavior_2cyclethingie()
+        {
+            Simulation sim = new Simulation(10,10,10);
 
             sim.ChangeCellState((1, 1), "healthy");
             sim.ChangeCellState((2, 1), "healthy");
@@ -49,7 +58,7 @@ namespace tests
 
             Simulation sim3 = (Simulation)sim;
 
-            sim2 = new Simulation(10,10,10);
+            Simulation sim2 = new Simulation(10,10,10);
 
             sim2.ChangeCellState((0,1), "healthy");
             sim2.ChangeCellState((0,2), "healthy");
@@ -102,5 +111,6 @@ namespace tests
 
             AssertCells(sim.cells, sim2.cells, 10, "aggressive not eating unaggressive");
         }
+
     }
 }

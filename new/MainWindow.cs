@@ -345,6 +345,7 @@ namespace modified_gol
         private void clearCells_btn_Click(object sender, EventArgs e)
         {
             sim.Clean();
+            cells_pnl.Refresh();
         }
     }
 
