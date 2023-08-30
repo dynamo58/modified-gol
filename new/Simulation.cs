@@ -120,7 +120,7 @@ namespace modified_gol
             ( 1, -1), ( 1, 0), (1, 1)
         };
         // helper function for calculating number of healthy neighbors of a cell
-        private int getHealthyNeighborCount(int x, int y)
+        private int GetHealthyNeighborCount(int x, int y)
         {
             int count = 0;
 
@@ -166,7 +166,7 @@ namespace modified_gol
             for (int i = 0; i < this.boardSize; i++)
                 for (int j = 0; j < this.boardSize; j++)
                 {
-                    int count = this.getHealthyNeighborCount(i, j);
+                    int count = this.GetHealthyNeighborCount(i, j);
 
                     if (this.cells[i, j].occupier == null)
                         newBoard[i, j] = new Cell(Organism.DecideEmptyCellNextState(count));

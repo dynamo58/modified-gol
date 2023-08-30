@@ -9,9 +9,6 @@ namespace modified_gol
     public partial class MainWindow : Form
     {
         Simulation sim;
-        // man I would love to be using an actual good language that
-        // could model this stuff; let rec_gif: Option<ImageAnimator> = None;
-        // oh well
         bool recording = false;
         AnimatedGif.AnimatedGifCreator gif = null;
         int framerate = 4;
